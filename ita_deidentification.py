@@ -71,9 +71,10 @@ Covered case:
 0543721370
 06 43721370
 064 3721370
+064/3721370
 '''
 def HideTelephone(inputText): 
-  matchesPhone = re.finditer('(?:((\+?\(?\d{2,3}\)?)|(\(\+?\d{2,3}\))) ?)?(((\d{2}[\ \-\.]?){3,5}\d{2})|((\d{3}[\ \-\.]?){2}\d{4}))',inputText)
+  matchesPhone = re.finditer('(?:((\+?\(?\d{2,3}\)?)|(\(\+?\d{2,3}\))) ?)?(((\d{2}[\ \-\.\/]?){3,5}\d{2})|((\d{3}[\ \-\.\/]?){2}\d{4}))',inputText)
   anonymized_text_tmp = list(inputText)
   for match in matchesPhone:
     phone_to_hide = match.group()
@@ -117,7 +118,7 @@ def HideEmail(inputText):
   return re.sub('[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}','<E-MAIL>',inputText)
 
 def HideCF(inputText):
-  return re.sub('[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]','<CF>',inputText)
+  return re.sub('[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]','<CF>', inputText)
 
 
 def HidePerson(inputText):
