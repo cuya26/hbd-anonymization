@@ -22,12 +22,13 @@ PERSON = 4
 ORGANIZATION = 5
 ADDRESS = 6
 DATE = 7
+CF = 8
 
 stanza.download("it")
 nlp_it = stanza.Pipeline(lang="it", processors='tokenize, ner')
 
 ''' Choice from user '''
-toHide=[4,5,6,7]
+toHide=[1,2,3,4,5,6,7,8]
 levelOfAnonymization = 0 # 0 -> Hide Date; 1 -> Keep only the year
 
 '''
@@ -51,6 +52,8 @@ def deIdentificationIta(inputText,toHide, levelOfAnonymization):
     inputText = HideAddress(inputText)
   if DATE in toHide:
     inputText = HideDate(inputText, levelOfAnonymization)
+  if CF in toHide:
+    inputText = HideCF(inputText)
   return inputText.replace('*','').replace('<PER>','<PERSONA>').replace('<LOC>','<INDIRIZZO>').replace('<ORG>','<ORGANIZZAZIONE>')
 
 ''' 
@@ -112,6 +115,10 @@ m5.r2@v2.it
 '''
 def HideEmail(inputText):
   return re.sub('[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}','<E-MAIL>',inputText)
+
+def HideCF(inputText):
+  return re.sub('[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]','<CF>',inputText)
+
 
 def HidePerson(inputText):
   return HideWithStanza(inputText,'PER')
@@ -188,6 +195,7 @@ PERSON = 4
 ORGANIZATION = 5
 ADDRESS = 6
 DATE = 7
+CF = 8
 '''
 
 example = ''' In data 28/06/2022 abbiamo visitato il sig. Carlos Sieros di anni 66
@@ -202,6 +210,7 @@ Il 12/22 c'è stato il sole
 Il paziente lascia il suo numero di cellulare: 3841202587 valido fino al 18 MARZO 2021.
 Cordiali saluti,
 Dr. Fazeelat Abdullah. 
+CF FZLBDL97E20E102W
 
 18 gennaio 2021
 Via di Roma 25, Milano 48125
