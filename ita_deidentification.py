@@ -205,8 +205,7 @@ Il 10 9 2021 ha avuto un intervento chirurgico.  marina-61@virgilio.it.
 Il sign. Rossi ha come numero di telefono di casa 0574 569852.
 Si rimanda al prossimo controllo in data 4/09/2022. Gennaio 2020.
 Il paziente era accompagnato dalla figlia Viola Rossi con telefono +39 255 7401545.
-Da prendere al bisogno 72 mg di aspirina 7 gennaio 2020. 
-mail del paziente alice.andalo@gmail.com e martina.cavallucci@gmail.com. 
+Da prendere al bisogno 72 mg di aspirina 7 gennaio 2020.  
 Il 12/22 c'è stato il sole
 Il paziente lascia il suo numero di cellulare: 3841202587 valido fino al 18 MARZO 2021.
 Cordiali saluti,
