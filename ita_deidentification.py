@@ -29,7 +29,7 @@ nlp_it = stanza.Pipeline(lang="it", processors='tokenize, ner')
 
 ''' Choice from user '''
 toHide=[1,2,3,4,5,6,7,8]
-levelOfAnonymization = 0 # 0 -> Hide Date; 1 -> Keep only the year
+levelOfAnonymization = 0 # 0 -> Hide Date; 1 -> Keep only the year; 2 -> keep only month
 
 '''
 Switch action from user choice
@@ -174,14 +174,22 @@ def HideDate(inputText, levelOfAnonymization):
       data_to_hide = reduce(lambda a, kv: a.replace(*kv), tuple_months, data_to_hide)
       
       
-    data_finder = dateutil.parser.parse(data_to_hide)
+    data_finder = dateutil.parser.parse(data_to_hide,dayfirst=True)
     index = text_lower.find(match.group())
     if levelOfAnonymization == 0:
       number_of_star = len(match.group())-len('<DATA>')
       anonymized_text_tmp[index:index+len(match.group())] = '<DATA>'+'*'*number_of_star
-    else:
+    elif levelOfAnonymization == 1:
       number_of_star = len(match.group())-len(str(data_finder.year))
       anonymized_text_tmp[index:index+len(match.group())] = str(data_finder.year)+'*'*number_of_star
+    else:
+      number_of_star = len(match.group()) - len(str(data_finder.year)) - len(str(data_finder.month)) - 1
+      if number_of_star < 0:
+        number_of_star = 0
+        str_year = str(data_finder.year)[-2:]
+      else:
+        str_year = str(data_finder.year)
+      anonymized_text_tmp[index:index + len(match.group())] = str(data_finder.month) + '-' + str_year + '*' * number_of_star
 
   return "".join(anonymized_text_tmp)
 
@@ -212,10 +220,11 @@ Il paziente lascia il suo numero di cellulare: 3841202587 valido fino al 18 MARZ
 Cordiali saluti,
 Dr. Fazeelat Abdullah. 
 CF FZLBDL97E20E102W
+345/4722110
 
 18 gennaio 2021
 Via di Roma 25, Milano 48125
 7-1-2000
 '''
 
-print(deIdentificationIta(example,toHide,1))
+print(deIdentificationIta(example, toHide, 2))
