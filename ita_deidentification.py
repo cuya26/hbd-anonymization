@@ -3,227 +3,260 @@ De-identification code for Italian Clinical Text
 
 '''
 
-import stanza # to install with pip
-import datefinder # to install with pip
+
+# import datefinder # to install with pip
 import re
 import dateutil.parser
-from typing import Match
+# from typing import Match
 from functools import reduce
+import json
 
-'''
-Possible variable to hide
-
---- All the regex refers to Italian Style for telephone, zip code, etc ---
-'''
-TELEPHONE = 1
-ZIPCODE = 2
-EMAIL = 3
-PERSON = 4
-ORGANIZATION = 5
-ADDRESS = 6
-DATE = 7
-CF = 8
-
-stanza.download("it")
-nlp_it = stanza.Pipeline(lang="it", processors='tokenize, ner')
-
-''' Choice from user '''
-toHide=[1,2,3,4,5,6,7,8]
-levelOfAnonymization = 0 # 0 -> Hide Date; 1 -> Keep only the year; 2 -> keep only month
-
-'''
-Switch action from user choice
-- The '*' replace is need by mantain the entity position for Stanza and date matcher
-- Substitution of the entity is necessary for better understanding
-- The order of ifs is important to maintain consistency with entity substitutions, based on the elements in the list all those to be substituted are checked
-'''
-def deIdentificationIta(inputText,toHide, levelOfAnonymization):
-  if TELEPHONE in toHide:
-    inputText = HideTelephone(inputText)
-  if ZIPCODE in toHide:
-    inputText = HideZipCode(inputText)
-  if EMAIL in toHide:
-    inputText = HideEmail(inputText)
-  if PERSON in toHide:
-    inputText = HidePerson(inputText)
-  if ORGANIZATION in toHide:
-    inputText = HideOrganization(inputText)
-  if ADDRESS in toHide:
-    inputText = HideAddress(inputText)
-  if DATE in toHide:
-    inputText = HideDate(inputText, levelOfAnonymization)
-  if CF in toHide:
-    inputText = HideCF(inputText)
-  return inputText.replace('*','').replace('<PER>','<PERSONA>').replace('<LOC>','<INDIRIZZO>').replace('<ORG>','<ORGANIZZAZIONE>')
-
-''' 
-Covered case:
-3491234567
-+393491234567
-00393491234567
-(+39)3491234567
-+(39) 349 8505734
-349 8505734
-3498505734 
-+39 349 850 5734
-349 850 5734
-0543 721370
-0543721370
-06 43721370
-064 3721370
-064/3721370
-'''
-def HideTelephone(inputText): 
-  matchesPhone = re.finditer('(?:((\+?\(?\d{2,3}\)?)|(\(\+?\d{2,3}\))) ?)?(((\d{2}[\ \-\.\/]?){3,5}\d{2})|((\d{3}[\ \-\.\/]?){2}\d{4}))',inputText)
-  anonymized_text_tmp = list(inputText)
-  for match in matchesPhone:
-    phone_to_hide = match.group()
-    index = inputText.find(match.group())
-    number_of_star = len(match.group())-len('<TELEFONO>')
-    anonymized_text_tmp[index:index+len(match.group())] = '<TELEFONO>'+'*'*number_of_star
-
-  return "".join(anonymized_text_tmp)
-
-'''
-Necessary step to identify telephone numbers to avoid ambiguites with number in zip code
-
-Covered case:
-47122
-01010
-
-'''
-def HideZipCode(inputText):
-  anonymized_text_tmp = list(inputText)
-  if TELEPHONE not in toHide:
-    inputText = HideTelephone(inputText)
-
-  matchesCap = re.finditer('[0-9]{5}',inputText)
-  
-  for match in matchesCap:
-    cap_to_hide = match.group()
-    index = inputText.find(match.group())
-    number_of_star = len(match.group())-len('<CAP>')
-    anonymized_text_tmp[index:index+len(match.group())] = '<CAP>'+'*'*number_of_star
-
-  return "".join(anonymized_text_tmp)
-
-'''
-Covered case:
-mario.rossi@libero.it
-m.r@l.it
-m5.r2@v2.it
-
-'''
-def HideEmail(inputText):
-  return re.sub('[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}','<E-MAIL>',inputText)
-
-def HideCF(inputText):
-  return re.sub('[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]','<CF>', inputText)
+tc = '■' # temporary character for replacement
 
 
-def HidePerson(inputText):
-  return HideWithStanza(inputText,'PER')
-
-def HideOrganization(inputText):
-  return HideWithStanza(inputText,'ORG')
-
-def HideAddress(inputText):
-  return HideWithStanza(inputText,'LOC')
-
-'''
-Replace entity with * not to lose the position
-''' 
-def HideWithStanza(inputText, entity_type):
-  doc = nlp_it(inputText)
-  anonymized_text_tmp = list(inputText)
-  for entity in doc.ents:
-    if entity_type == entity.type:
-       pos1 = entity.start_char
-       pos2 = entity.end_char
-       number_of_star = pos2-pos1-len('<'+entity.type+'>')
-       anonymized_text_tmp[pos1:pos2] = '<'+entity.type+'>'+'*'*number_of_star
-  return  "".join(anonymized_text_tmp)
-
-'''
-Necessary step to identify telephone numbers to avoid ambiguites with number in dates
-
-Covered case:
-28/06/2022
-10 9 2021 
-4/09/2022
-Gennaio 2020.
-7 gennaio 2020
-18 gennaio 2021
-7-1-2000
-12/22
-'''
-
-def HideDate(inputText, levelOfAnonymization):
-  text_lower = inputText.lower()
-  if TELEPHONE not in toHide:
-    text_lower = HideTelephone(text_lower)
-  matches_dates = re.finditer('(?:\d{1,4}[-\\ \/ ])?(\d{1,2}|(?:gen(?:naio)?|feb(?:braio)?|mar(?:zo)?|apr(?:ile)?|mag(?:gio)|giu(?:gno)?|lug(?:lio)?|ago(?:sto)?|set(?:tembre)?|ott(?:obre)?|nov(?:embre)?|dic(?:embre)?))[-\\ \/  ]\d{1,4}',text_lower)
-  anonymized_text_tmp = list(inputText)
-
-  tuple_months = ('gennaio','01'),('gen','01'),('febbraio','02'),('feb','02'),('marzo','03'),('mar','03'),('aprile','04'),('apr','04'),('maggio','05'),('mag','05'),('giugno','06'),('giu','06'),('luglio','07'),('lug','07'),('agosto','08'),('ago','08'),('settembre','09'),('set','09'),('ottobre','10'),('ott','10'),('novembre','11'),('nov','11'),('dicembre','12'),('dic','12')
-
-  for match in matches_dates:
-    data_to_hide = match.group()
-    if(not(re.search('[a-zA-Z]', data_to_hide)) == None):
-      # sostituisce il mese in stringa con l'equivalente numerico
-      data_to_hide = reduce(lambda a, kv: a.replace(*kv), tuple_months, data_to_hide)
-      
-      
-    data_finder = dateutil.parser.parse(data_to_hide,dayfirst=True)
-    index = text_lower.find(match.group())
-    if levelOfAnonymization == 0:
-      number_of_star = len(match.group())-len('<DATA>')
-      anonymized_text_tmp[index:index+len(match.group())] = '<DATA>'+'*'*number_of_star
-    elif levelOfAnonymization == 1:
-      number_of_star = len(match.group())-len(str(data_finder.year))
-      anonymized_text_tmp[index:index+len(match.group())] = str(data_finder.year)+'*'*number_of_star
+class anonymizer:
+  def __init__(self, configfile):
+    # parse configuration file
+    with open(configfile) as cin:
+      cfg = json.load(cin)
+    
+    self.models = cfg['models']
+    self.mode = cfg['mask']['mode']
+    self.sc = cfg['mask']['special_character'][0] # take only first character if a string is passed
+    self.date_level = cfg['mask']['date_level']
+    self.mask_modes = ['tag','tag_l','anon','anon_l']
+    
+    # initialize needed models
+    print(f'{"DOWNLOADING AND INITIALIZING MODELS ":-<80}')
+    for model in set(self.models.values()):
+      if model=='stanza':
+        import stanza # to install with pip
+        stanza.download("it")
+        self.m_stanza = stanza.Pipeline(lang="it", processors='tokenize, ner')
+      elif model=='regex':
+        # All the regex refers to Italian Style for telephone, zip code, etc ---
+        pass # nothing to load
+      elif model!='':
+        print(f'{model} is not a supported model. Please check the documentation for the list of supported models for each field')
+        
+  # main function      
+  def deIdentificationIta(self, inputText):
+    print(f'{"ANONYMIZING GIVEN TEXT ":-<80}')
+    spans_dict = {}
+    output_dict = self.HideTelephone(inputText)
+    inputText = output_dict['text']
+    spans_dict['telephone'] = output_dict['spans']
+    print('input text after telephone:', inputText)
+    output_dict = self.HideZipCode(inputText)
+    inputText = output_dict['text']
+    spans_dict['zipcode'] = output_dict['spans']
+    print('input text after zipcode:', inputText)
+    output_dict = self.HideEmail(inputText)
+    inputText = output_dict['text']
+    spans_dict['email'] = output_dict['spans']
+    print('input text after email:', inputText)
+    output_dict = self.HidePerson(inputText)
+    inputText = output_dict['text']
+    spans_dict['person'] = output_dict['spans']
+    print('input text after person:', inputText)
+    output_dict = self.HideOrganization(inputText)
+    inputText = output_dict['text']
+    spans_dict['organization'] = output_dict['spans']
+    print('input text after organization:', inputText)
+    output_dict = self.HideAddress(inputText)
+    inputText = output_dict['text']
+    spans_dict['address'] = output_dict['spans']
+    print('input text after address:', inputText)
+    output_dict = self.HideDate(inputText)
+    inputText = output_dict['text']
+    spans_dict['date'] = output_dict['spans']
+    print('input text after date:', inputText)
+    output_dict = self.HideFiscalCode(inputText)
+    inputText = output_dict['text']
+    spans_dict['fiscal_code'] = output_dict['spans']
+    print('input text after fiscal code:', inputText)
+    if self.mode=='anon':
+      inputText = re.sub(f'{tc}+', tc*3, inputText) # you can set how long the fixed character replacement will be here
+    if self.mode=='tag':
+      inputText = inputText.replace(tc,'')
+    return {'text': inputText.replace(tc,self.sc), 'spans_dict': spans_dict}
+    
+  # masker function. replace sensible text with tag name (optional) and special character
+  def mask_data(self, inputText, ent_type, spans):
+    if self.mode not in self.mask_modes:
+      print(f'WARNING: Unsupported masking mode selected. Choose one from {self.mask_modes}.')
+      return inputText
+    if len(spans)==0:
+      return inputText
+    spans=[(0,0)]+spans 
+    outText = ''
+    for i in range(1,len(spans)):
+      if self.mode=='anon_l' or self.mode=='anon':
+        outText += inputText[spans[i-1][1]:spans[i][0]] + tc*(spans[i][1]-spans[i][0])
+      elif self.mode=='tag_l' or self.mode=='tag':
+        outText += inputText[spans[i-1][1]:spans[i][0]] + f'{ent_type:{tc}<{spans[i][1]-spans[i][0]}}'
+        # !!! NB: se ent_type è più lungo del testo da rimpiazzare, il testo si allunga
+    outText += inputText[spans[-1][1]:]
+    return outText
+    
+  # anonymization functions
+  def HideTelephone(self, inputText):
+    if self.models['telephone']=='regex':
+      matches = re.finditer('(?:((\+?\(?\d{2,3}\)?)|(\(\+?\d{2,3}\))) ?)?(((\d{2}[\ \-\.\/]?){3,5}\d{2})|((\d{3}[\ \-\.\/]?){2}\d{4}))', inputText)
+      span_list = [match.span() for match in matches]
+      outText = self.mask_data(inputText, '<TELEFONO>', span_list)
+      return {'text': outText, 'spans': span_list}
+    elif self.models['telephone']=='':
+      return {'text': inputText, 'spans': None}
     else:
-      number_of_star = len(match.group()) - len(str(data_finder.year)) - len(str(data_finder.month)) - 1
-      if number_of_star < 0:
-        number_of_star = 0
-        str_year = str(data_finder.year)[-2:]
+      print('WARNING: Unsupported model for telephone anonymization')
+      return {'text': inputText, 'spans': None}
+  
+  def HideZipCode(self, inputText):
+    if self.models['zipcode']=='regex':
+      matches = re.finditer('\D([0-9]{5})\D', inputText)
+      span_list = [match.span(1) for match in matches]
+      outText = self.mask_data(inputText, '<CAP>', span_list)
+      return {'text': outText, 'spans': span_list}
+    elif self.models['zipcode']=='':
+      return {'text': inputText, 'spans': None}
+    else:
+      print('WARNING: Unsupported model for zipcode anonymization')
+      return {'text': inputText, 'spans': None}
+
+  def HideEmail(self, inputText):
+    if self.models['email']=='regex':
+      matches = re.finditer('[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}', inputText)
+      span_list = [match.span() for match in matches]
+      outText = self.mask_data(inputText, '<E-MAIL>', span_list)
+      return {'text': outText, 'spans': span_list}
+    elif self.models['email']=='':
+      return {'text': inputText, 'spans': None}
+    else:
+      print('WARNING: Unsupported model for e-mail anonymization')
+      return {'text': inputText, 'spans': None}
+
+  def HideFiscalCode(self, inputText):
+    if self.models['fiscal_code']=='regex':
+      print(inputText)
+      matches = re.finditer('[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]', inputText)
+      span_list = [match.span() for match in matches]
+      outText = self.mask_data(inputText, '<CF>', span_list)
+      return {'text': outText, 'spans': span_list}
+    elif self.models['fiscal_code']=='':
+      return {'text': inputText, 'spans': None}
+    else:
+      print('WARNING: Unsupported model for fiscal code anonymization')
+      return {'text': inputText, 'spans': None}
+
+  def HidePerson(self, inputText):
+    if self.models['person']=='stanza':
+      doc = self.m_stanza(inputText)
+      span_list = [(e.start_char, e.end_char) for e in doc.ents if e.type=='PER']
+      outText = self.mask_data(inputText, '<PERSONA>', span_list)
+      return {'text': outText, 'spans': span_list}
+    elif self.models['person']=='':
+      return {'text': inputText, 'spans': None}
+    else:
+      print('WARNING: Unsupported model for person anonymization')
+      return {'text': inputText, 'spans': None}
+  
+  def HideOrganization(self, inputText):
+    if self.models['organization']=='stanza':
+      doc = self.m_stanza(inputText)
+      span_list = [(e.start_char, e.end_char) for e in doc.ents if e.type=='ORG']
+      outText = self.mask_data(inputText, '<ORGANIZZAZIONE>', span_list)
+      return {'text': outText, 'spans': span_list}
+    elif self.models['organization']=='':
+      return {'text': inputText, 'spans': None}
+    else:
+      print('WARNING: Unsupported model for organization anonymization')
+      return {'text': inputText, 'spans': None}
+  
+  def HideAddress(self, inputText):
+    if self.models['address']=='stanza':
+      doc = self.m_stanza(inputText)
+      span_list = [(e.start_char, e.end_char) for e in doc.ents if e.type=='LOC']
+      outText = self.mask_data(inputText, '<INDIRIZZO>', span_list)
+      return {'text': outText, 'spans': span_list}
+    elif self.models['address']=='':
+      return {'text': inputText, 'spans': None}
+    else:
+      print('WARNING: Unsupported model for address anonymization')
+      return {'text': inputText, 'spans': None}
+  
+  
+  def HideDate(self, inputText):
+    if self.models['date']=='regex':
+      text_lower = inputText.lower()
+      matches_dates = re.finditer('(?:\d{1,4}[-\\ \/ ])?(\d{1,2}|(?:gen(?:naio)?|feb(?:braio)?|mar(?:zo)?|apr(?:ile)?|mag(?:gio)|giu(?:gno)?|lug(?:lio)?|ago(?:sto)?|set(?:tembre)?|ott(?:obre)?|nov(?:embre)?|dic(?:embre)?))[-\\ \/  ]\d{1,4}',text_lower)
+      tuple_months = ('gennaio','01'),('gen','01'),('febbraio','02'),('feb','02'),('marzo','03'),('mar','03'),('aprile','04'),('apr','04'),('maggio','05'),('mag','05'),('giugno','06'),('giu','06'),('luglio','07'),('lug','07'),('agosto','08'),('ago','08'),('settembre','09'),('set','09'),('ottobre','10'),('ott','10'),('novembre','11'),('nov','11'),('dicembre','12'),('dic','12')
+      ent_type = '<DATA>'
+      outText = ''
+      last_span = 0
+      span = None
+
+      span_list = [match.span() for match in matches_dates]
+      
+      for match in matches_dates:
+        data_to_hide = match.group()
+        if(not(re.search('[a-zA-Z]', data_to_hide)) == None):
+          # sostituisce il mese in stringa con l'equivalente numerico
+          data_to_hide = reduce(lambda a, kv: a.replace(*kv), tuple_months, data_to_hide)
+        try: 
+          data_finder = dateutil.parser.parse(data_to_hide, dayfirst=True)
+        except dateutil.parser.ParserError as e:
+          print('WARNING: Date parsing error: ', e, '... Ignoring this match')
+          continue
+        span = match.span()
+        outText += inputText[last_span:span[0]]
+        last_span = span[1]
+        
+        if self.date_level == 'hide':
+          if self.mode=='anon_l' or self.mode=='anon':
+            outText += tc*(span[1]-span[0])
+          elif self.mode=='tag_l' or self.mode=='tag':
+            outText += f'{ent_type:{tc}<{span[1]-span[0]}}'
+        elif self.date_level == 'year':
+          outText += f'{data_finder.year}'
+        elif self.date_level == 'month':
+          outText += f'{data_finder.month}-{data_finder.year}'
+        else:
+          print('WARNING: Unsupported type of date anonymization')
+          return {'text': inputText, 'spans': None}
+      if span != None:
+        outText += inputText[span[1]:]
+        return {'text': outText, 'spans': span_list}
       else:
-        str_year = str(data_finder.year)
-      anonymized_text_tmp[index:index + len(match.group())] = str(data_finder.month) + '-' + str_year + '*' * number_of_star
+        return {'text': inputText, 'spans': []}
+    
+    elif self.models['date']=='':
+      return {'text': inputText, 'spans': None}
+    else:
+      print('WARNING: Unsupported model for date anonymization')
+      return {'text': inputText, 'spans': None}
 
-  return "".join(anonymized_text_tmp)
-
-'''
-Dummie example
-
-
-TELEPHONE = 1
-ZIPCODE = 2
-EMAIL = 3
-PERSON = 4
-ORGANIZATION = 5
-ADDRESS = 6
-DATE = 7
-CF = 8
-'''
-
-example = ''' In data 28/06/2022 abbiamo visitato il sig. Carlos Sieros di anni 66
-affetto da cardiomiopatia cronica all'ospedale Santa Maria delle Croci di Ravenna. Il signore lavora da Google.
-Il 10 9 2021 ha avuto un intervento chirurgico.  marina-61@virgilio.it.
-Il sign. Rossi ha come numero di telefono di casa 0574 569852.
-Si rimanda al prossimo controllo in data 4/09/2022. Gennaio 2020.
-Il paziente era accompagnato dalla figlia Viola Rossi con telefono +39 255 7401545.
-Da prendere al bisogno 72 mg di aspirina 7 gennaio 2020.  
-Il 12/22 c'è stato il sole
-Il paziente lascia il suo numero di cellulare: 3841202587 valido fino al 18 MARZO 2021.
-Cordiali saluti,
-Dr. Fazeelat Abdullah. 
-CF FZLBDL97E20E102W
-345/4722110
-
-18 gennaio 2021
-Via di Roma 25, Milano 48125
-7-1-2000
-'''
-
-print(deIdentificationIta(example, toHide, 2))
+if __name__ == '__main__':
+  example = ''' In data 28/06/2022 abbiamo visitato il sig. Carlos Sieros di anni 66
+  con zip code 50134 e anche 40120
+  affetto da cardiomiopatia cronica all'ospedale Santa Maria delle Croci di Ravenna. Il signore lavora da Google.
+  Il 10 9 2021 ha avuto un intervento chirurgico.  marina-61@virgilio.it.
+  Il sign. Rossi ha come numero di telefono di casa 0574 569852.
+  Si rimanda al prossimo controllo in data 4/09/2022. Gennaio 2020.
+  Il paziente era accompagnato dalla figlia Viola Rossi con telefono +39 255 7401545.
+  Da prendere al bisogno 72 mg di aspirina 7 gennaio 2020.  
+  Il 12/22 c'è stato il sole
+  Il paziente lascia il suo numero di cellulare: 3841202587 valido fino al 18 MARZO 2021.
+  Cordiali saluti,
+  Dr. Fazeelat Abdullah. 
+  CF FZLBDL97E20E102W
+  345/4722110
+  
+  18 gennaio 2021
+  Via di Roma 25, Milano 48125
+  7-1-2000
+  '''
+  deid = anonymizer('./config.json')
+  output_dict = deid.deIdentificationIta(example)
+  print('output text:', output_dict['text'])
+  print('spans dict:', output_dict['spans_dict'])
