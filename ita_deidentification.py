@@ -41,40 +41,40 @@ class anonymizer:
         
   # main function      
   def deIdentificationIta(self, inputText):
-    print(f'{"ANONYMIZING GIVEN TEXT ":-<80}')
+    #print(f'{"ANONYMIZING GIVEN TEXT ":-<80}')
     spans_dict = {}
     output_dict = self.HideTelephone(inputText)
     inputText = output_dict['text']
     spans_dict['telephone'] = output_dict['spans']
-    print('input text after telephone:', inputText)
+    #print('input text after telephone:', inputText)
     output_dict = self.HideZipCode(inputText)
     inputText = output_dict['text']
     spans_dict['zipcode'] = output_dict['spans']
-    print('input text after zipcode:', inputText)
+    #print('input text after zipcode:', inputText)
     output_dict = self.HideEmail(inputText)
     inputText = output_dict['text']
     spans_dict['email'] = output_dict['spans']
-    print('input text after email:', inputText)
+    #print('input text after email:', inputText)
     output_dict = self.HidePerson(inputText)
     inputText = output_dict['text']
     spans_dict['person'] = output_dict['spans']
-    print('input text after person:', inputText)
+    #print('input text after person:', inputText)
     output_dict = self.HideOrganization(inputText)
     inputText = output_dict['text']
     spans_dict['organization'] = output_dict['spans']
-    print('input text after organization:', inputText)
+    #print('input text after organization:', inputText)
     output_dict = self.HideAddress(inputText)
     inputText = output_dict['text']
     spans_dict['address'] = output_dict['spans']
-    print('input text after address:', inputText)
+    #print('input text after address:', inputText)
     output_dict = self.HideDate(inputText)
     inputText = output_dict['text']
     spans_dict['date'] = output_dict['spans']
-    print('input text after date:', inputText)
+    #print('input text after date:', inputText)
     output_dict = self.HideFiscalCode(inputText)
     inputText = output_dict['text']
     spans_dict['fiscal_code'] = output_dict['spans']
-    print('input text after fiscal code:', inputText)
+    #print('input text after fiscal code:', inputText)
     if self.mode=='anon':
       inputText = re.sub(f'{tc}+', tc*3, inputText) # you can set how long the fixed character replacement will be here
     if self.mode=='tag':
@@ -138,7 +138,7 @@ class anonymizer:
 
   def HideFiscalCode(self, inputText):
     if self.models['fiscal_code']=='regex':
-      print(inputText)
+      # print(inputText)
       matches = re.finditer('[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]', inputText)
       span_list = [match.span() for match in matches]
       outText = self.mask_data(inputText, '<CF>', span_list)
@@ -258,5 +258,5 @@ if __name__ == '__main__':
   '''
   deid = anonymizer('./config.json')
   output_dict = deid.deIdentificationIta(example)
-  print('output text:', output_dict['text'])
-  print('spans dict:', output_dict['spans_dict'])
+  # print('output text:', output_dict['text'])
+  # print('spans dict:', output_dict['spans_dict'])
