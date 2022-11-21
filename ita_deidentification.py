@@ -3,13 +3,14 @@ De-identification code for Italian Clinical Text
 
 '''
 
-
 # import datefinder # to install with pip
+# install Stanza with pip
 import re
 import dateutil.parser
 # from typing import Match
 from functools import reduce
 import json
+
 
 tc = '■' # temporary character for replacement
 
@@ -33,6 +34,10 @@ class anonymizer:
         import stanza # to install with pip
         stanza.download("it")
         self.m_stanza = stanza.Pipeline(lang="it", processors='tokenize, ner')
+      elif model=='spacy':
+       import spacy #to install with pip
+       # Install 'python -m spacy download it_core_news_lg' 
+       self.m_spacy = spacy.load("it_core_news_lg")
       elif model=='regex':
         # All the regex refers to Italian Style for telephone, zip code, etc ---
         pass # nothing to load
@@ -155,6 +160,11 @@ class anonymizer:
       span_list = [(e.start_char, e.end_char) for e in doc.ents if e.type=='PER']
       outText = self.mask_data(inputText, '<PERSONA>', span_list)
       return {'text': outText, 'spans': span_list}
+    elif self.models['person']=='spacy':
+      doc = self.m_spacy(inputText)
+      span_list = [(e.start_char, e.end_char) for e in doc.ents if e.label_=='PER']
+      outText = self.mask_data(inputText, '<PERSONA>', span_list)
+      return {'text': outText, 'spans': span_list}
     elif self.models['person']=='':
       return {'text': inputText, 'spans': None}
     else:
@@ -167,6 +177,11 @@ class anonymizer:
       span_list = [(e.start_char, e.end_char) for e in doc.ents if e.type=='ORG']
       outText = self.mask_data(inputText, '<ORGANIZZAZIONE>', span_list)
       return {'text': outText, 'spans': span_list}
+    elif self.models['organization']=='spacy':
+      doc = self.m_spacy(inputText)
+      span_list = [(e.start_char, e.end_char) for e in doc.ents if e.label_=='ORG']
+      outText = self.mask_data(inputText, '<ORGANIZZAZIONE>', span_list)
+      return {'text': outText, 'spans': span_list}
     elif self.models['organization']=='':
       return {'text': inputText, 'spans': None}
     else:
@@ -177,6 +192,11 @@ class anonymizer:
     if self.models['address']=='stanza':
       doc = self.m_stanza(inputText)
       span_list = [(e.start_char, e.end_char) for e in doc.ents if e.type=='LOC']
+      outText = self.mask_data(inputText, '<INDIRIZZO>', span_list)
+      return {'text': outText, 'spans': span_list}
+    elif self.models['address']=='spacy':
+      doc = self.m_spacy(inputText)
+      span_list = [(e.start_char, e.end_char) for e in doc.ents if e.label_=='LOC']
       outText = self.mask_data(inputText, '<INDIRIZZO>', span_list)
       return {'text': outText, 'spans': span_list}
     elif self.models['address']=='':
@@ -258,5 +278,6 @@ if __name__ == '__main__':
   '''
   deid = anonymizer('./config.json')
   output_dict = deid.deIdentificationIta(example)
-  # print('output text:', output_dict['text'])
-  # print('spans dict:', output_dict['spans_dict'])
+  #print('output text:', output_dict['text'])
+  #print('spans dict:', output_dict['spans_dict'])
+  
