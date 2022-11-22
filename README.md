@@ -59,13 +59,13 @@ Gennaio 2020.
 Supported models: regex  
 
 #### Person
-Supported models: stanza  
+Supported models: stanza, spacy(lg)
 
 #### Organization
-Supported models: stanza 
+Supported models: stanza, spacy(lg)
 
 #### Address
-Supported models: stanza 
+Supported models: stanza, spacy(lg)
 
 ### Mask modes
 Set the desired mask mode and special character in the "mask" section of the config.json file.  
