@@ -1,0 +1,17 @@
+{
+    "models": {
+        "telephone": "john",
+        "zipcode": "regex",
+        "email": "regex",
+        "fiscal_code": "regex",
+        "person": "stanza",
+        "organization": "stanza",
+        "address": "stanza",
+        "date": "regex"
+    },
+    "mask": {
+        "mode": "anon_l",
+        "special_character": "*",
+        "date_level": "hide"
+    }
+}
