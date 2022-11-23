@@ -10,6 +10,14 @@ import dateutil.parser
 # from typing import Match
 from functools import reduce
 import json
+import os
+
+import sparknlp
+import sparknlp_jsl
+from sparknlp.annotator import *
+from sparknlp_jsl.annotator import *
+from sparknlp.base import *
+from sparknlp.util import *
 
 tc = '■' # temporary character for replacement
 
@@ -36,6 +44,26 @@ class anonymizer:
       elif model=='regex':
         # All the regex refers to Italian Style for telephone, zip code, etc ---
         pass # nothing to load
+      elif model=='john':
+        from sparknlp.pretrained import PretrainedPipeline
+        from pyspark.ml import Pipeline, PipelineModel
+        from pyspark.sql import SparkSession
+
+        with open('spark_jsl.json') as f:
+          license_keys = json.load(f)
+
+        # Defining license key-value pairs as local variables
+        locals().update(license_keys)
+        os.environ.update(license_keys)
+
+        params = {"spark.driver.memory": "16G",
+                  "spark.kryoserializer.buffer.max": "2000M",
+                  "spark.driver.maxResultSize": "2000M"}
+
+        from sparknlp.pretrained import ResourceDownloader
+        from pyspark.sql import functions as F
+        spark = sparknlp_jsl.start(secret=os.environ.get('SECRET'), params=params)
+        self.m_john = PretrainedPipeline("clinical_deidentification", "it", "clinical/models")
       elif model!='':
         print(f'{model} is not a supported model. Please check the documentation for the list of supported models for each field')
         
@@ -106,6 +134,11 @@ class anonymizer:
       span_list = [match.span() for match in matches]
       outText = self.mask_data(inputText, '<TELEFONO>', span_list)
       return {'text': outText, 'spans': span_list}
+    elif self.models['telephone']=='john':
+      annotations = self.m_john.fullAnnotate(inputText)
+      span_list = [(a.begin, a.end) for a in annotations[0]['ner_chunk'] if a.metadata['entity'] == 'PHONE']
+      outText = self.mask_data(inputText, '<TELEFONO>', span_list)
+      return {'text': outText, 'spans': span_list}
     elif self.models['telephone']=='':
       return {'text': inputText, 'spans': None}
     else:
@@ -120,6 +153,11 @@ class anonymizer:
       return {'text': outText, 'spans': span_list}
     elif self.models['zipcode']=='':
       return {'text': inputText, 'spans': None}
+    elif self.models['zipcode']=='john':
+      annotations = self.m_john.fullAnnotate(inputText)
+      span_list = [(a.begin, a.end) for a in annotations[0]['ner_chunk'] if a.metadata['entity'] == 'ZIP']
+      outText = self.mask_data(inputText, '<CAP>', span_list)
+      return {'text': outText, 'spans': span_list}
     else:
       print('WARNING: Unsupported model for zipcode anonymization')
       return {'text': inputText, 'spans': None}
@@ -132,6 +170,11 @@ class anonymizer:
       return {'text': outText, 'spans': span_list}
     elif self.models['email']=='':
       return {'text': inputText, 'spans': None}
+    elif self.models['email']=='john':
+      annotations = self.m_john.fullAnnotate(inputText)
+      span_list = [(a.begin, a.end) for a in annotations[0]['ner_chunk'] if a.metadata['entity'] == 'E-MAIL']
+      outText = self.mask_data(inputText, '<E-MAIL>', span_list)
+      return {'text': outText, 'spans': span_list}
     else:
       print('WARNING: Unsupported model for e-mail anonymization')
       return {'text': inputText, 'spans': None}
@@ -145,6 +188,11 @@ class anonymizer:
       return {'text': outText, 'spans': span_list}
     elif self.models['fiscal_code']=='':
       return {'text': inputText, 'spans': None}
+    elif self.models['fiscal_code']=='john':
+      annotations = self.m_john.fullAnnotate(inputText)
+      span_list = [(a.begin, a.end) for a in annotations[0]['ner_chunk'] if a.metadata['entity'] == 'SSN']
+      outText = self.mask_data(inputText, '<CF>', span_list)
+      return {'text': outText, 'spans': span_list}
     else:
       print('WARNING: Unsupported model for fiscal code anonymization')
       return {'text': inputText, 'spans': None}
@@ -157,6 +205,11 @@ class anonymizer:
       return {'text': outText, 'spans': span_list}
     elif self.models['person']=='':
       return {'text': inputText, 'spans': None}
+    elif self.models['person']=='john':
+      annotations = self.m_john.fullAnnotate(inputText)
+      span_list = [(a.begin, a.end) for a in annotations[0]['ner_chunk'] if a.metadata['entity'] == 'PATIENT']
+      outText = self.mask_data(inputText, '<PERSONA>', span_list)
+      return {'text': outText, 'spans': span_list}
     else:
       print('WARNING: Unsupported model for person anonymization')
       return {'text': inputText, 'spans': None}
@@ -169,6 +222,11 @@ class anonymizer:
       return {'text': outText, 'spans': span_list}
     elif self.models['organization']=='':
       return {'text': inputText, 'spans': None}
+    elif self.models['organization']=='john':
+      annotations = self.m_john.fullAnnotate(inputText)
+      span_list = [(a.begin, a.end) for a in annotations[0]['ner_chunk'] if a.metadata['entity'] == 'HOSPITAL']
+      outText = self.mask_data(inputText, '<ORGANIZZAZIONE>', span_list)
+      return {'text': outText, 'spans': span_list}
     else:
       print('WARNING: Unsupported model for organization anonymization')
       return {'text': inputText, 'spans': None}
@@ -181,6 +239,11 @@ class anonymizer:
       return {'text': outText, 'spans': span_list}
     elif self.models['address']=='':
       return {'text': inputText, 'spans': None}
+    elif self.models['address']=='john':
+      annotations = self.m_john.fullAnnotate(inputText)
+      span_list = [(a.begin, a.end) for a in annotations[0]['ner_chunk'] if a.metadata['entity'] == 'STREET' or a.metadata['entity']=='CITY']
+      outText = self.mask_data(inputText, '<INDIRIZZO>', span_list)
+      return {'text': outText, 'spans': span_list}
     else:
       print('WARNING: Unsupported model for address anonymization')
       return {'text': inputText, 'spans': None}
