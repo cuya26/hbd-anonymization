@@ -18,8 +18,24 @@ tc = '■' # temporary character for replacement
 def empty_db():
   return pd.DataFrame(columns=['start','end','entity_type','text'])
 
+def merge_overlaps(df):
+  # this functions checks spans order by start and end and in case of overlaps only considers first appearing span
+  # il primo reset index è per evitare indici duplicati ma mantenere l'ordine di preferenza (nella lista i db prima verranno messi prima come priorità), il secondo è per resettare dopo il sort
+  dbtot = df.reset_index(drop=True).sort_values(by=['start','end']).reset_index(drop=True)
+  dbase = dbtot[dbtot.index==0].copy()
+  db2add = dbtot[dbtot.index!=0]
+  for i,row in db2add.iterrows():
+    if row['start']>dbase['end'].max():
+      dbase = pd.concat((dbase,db2add[db2add.index==i]))
+  return dbase.reset_index(drop=True)
+
 class anonymizer:
   def __init__(self, configfile):
+    self.models = {}
+    self.load(configfile)
+
+  def load(self, configfile):
+    prev_models = set(self.models.values()) # get currently loaded models
     # parse configuration file
     with open(configfile) as cin:
       cfg = json.load(cin)
@@ -35,9 +51,10 @@ class anonymizer:
     # results dataframe
     self.dbs = empty_db()
 
+    current_models = set(self.models.values())
     # initialize needed models
     print(f'{"DOWNLOADING AND INITIALIZING MODELS ":-<80}')
-    for model in set(self.models.values()):
+    for model in current_models-prev_models: # using set difference to add missing models
       if model=='stanza':
         import stanza # to install with pip
         stanza.download("it")
@@ -52,13 +69,12 @@ class anonymizer:
         pass # nothing to load
       elif model!='':
         print(f'{model} is not a supported model. Please check the documentation for the list of supported models for each field')
-
-  def reload(self, config):
-    #todo: needs to update on reload only if models are different
+    for model in prev_models-current_models: # using set difference to release memory for no more needed models
+      pass #TODO. freeing memory instructions is hard to find in the documentation, i only found about spacy
     return
 
   # main function
-  def deIdentificationIta(self, inputText):
+  def deIdentificationIta(self, inputText, merge=False):
     #print(f'{"ANONYMIZING GIVEN TEXT ":-<80}')
     self.dbs = empty_db() # resets previously found entities
 
@@ -74,7 +90,10 @@ class anonymizer:
 
     self.tracker['status'] = False # resets found entities for future reruns on different text
     outText = self.mask_data(inputText)
-    return {'text': outText, 'match_dataframe': self.dbs}
+    if merge: # merges found spans before returning, aligning dbs with anonymized text
+      return {'text': outText, 'match_dataframe': merge_overlaps(self.dbs)}
+    else: # returns all found spans
+      return {'text': outText, 'match_dataframe': self.dbs}
 
   # masker function. replace sensible text with tag name (optional) and special character
   def mask_data(self, inputText, dbs=None, mode=None, date_level=None, sc=None):
@@ -91,14 +110,7 @@ class anonymizer:
       return inputText
 
     # makes a unique span dataframe taking only first span in case of overlaps
-    # il primo reset index è per evitare indici duplicati ma mantenere l'ordine di preferenza (nella lista i db prima verranno messi prima come priorità), il secondo è per resettare dopo il sort
-    dbtot = dbs.reset_index(drop=True).sort_values(by=['start','end']).reset_index(drop=True)
-    dbase = dbtot[dbtot.index==0].copy()
-    db2add = dbtot[dbtot.index!=0]
-    for i,row in db2add.iterrows():
-      if row['start']>dbase['end'].max():
-        dbase = pd.concat((dbase,db2add[db2add.index==i]))
-    dbase = dbase.reset_index(drop=True)
+    dbase = merge_overlaps(dbs)
 
     outText = ''
     for i in range(len(dbase)):
