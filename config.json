@@ -1,6 +1,6 @@
 {
     "models": {
-        "telephone": "john",
+        "telephone": "regex",
         "zipcode": "regex",
         "email": "regex",
         "fiscal_code": "regex",
