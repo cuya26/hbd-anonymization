@@ -6,7 +6,7 @@ De-identification code for Italian Clinical Text
 # import datefinder # to install with pip
 # install Stanza with pip
 import pandas as pd
-import re
+
 import dateutil.parser
 # from typing import Match
 from functools import reduce
@@ -20,6 +20,7 @@ from sparknlp_jsl.annotator import *
 from sparknlp.base import *
 from sparknlp.util import *
 
+import re
 
 tc = '■' # temporary character for replacement
 
@@ -340,9 +341,9 @@ class anonymizer:
       annotations = self.m_john.fullAnnotate(inputText)
       span_list = [(a.begin, a.end, a.metadata['entity'], a.result) for a in annotations[0]['ner_chunk'] if a.metadata['entity'] == 'SSN']
       db = pd.DataFrame(span_list, columns=['start','end','entity_type','text'])
-      db['entity_type'] = db['entity_type'].replace({'DOCTOR':'person','PATIENT':'person', 'CITY':'address','HOSPITAL':'organization' ,'E-MAIL':'email', 'AGE':'age', 'CF':'fiscal_code', 'ZIP':'zipcode', 'TELEPHONE':'telephone'})
+      db['entity_type'] = db['entity_type'].replace({'DOCTOR':'person','PATIENT':'person', 'CITY':'address','HOSPITAL':'organization' ,'E-MAIL':'email', 'AGE':'age', 'SSN':'fiscal_code', 'ZIP':'zipcode', 'TELEPHONE':'telephone'})
       db = db[db['entity_type'].isin(ents_todo['entity_type'])].copy() # keep only entities selected with this model
-      db['entity_type'] = db['entity_type'].replace({'person':'PERSONA','address':'INDIRIZZO','organization':'ORGANIZZAZIONE', 'email':'E-MAIL', 'age':'ETA', 'fiscal_code':'CODICE_FISCALE', 'zipcode':'CAP', 'telephone':'TELEFONO'})
+      db['entity_type'] = db['entity_type'].replace({'person':'PERSONA','address':'INDIRIZZO','organization':'ORGANIZZAZIONE', 'email':'E-MAIL', 'age':'ETA', 'fiscal_code':'CF', 'zipcode':'CAP', 'telephone':'TELEFONO'})
       if concat: self.dbs = pd.concat((self.dbs, db))
       self.tracker.loc[self.tracker['entity_type'].isin(ents_todo['entity_type']),'status']=True # set detected entities as done
       return db
