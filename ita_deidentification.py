@@ -6,12 +6,21 @@ De-identification code for Italian Clinical Text
 # import datefinder # to install with pip
 # install Stanza with pip
 import pandas as pd
-import re
+
 import dateutil.parser
 # from typing import Match
 from functools import reduce
 import json
+import os
 
+import sparknlp
+import sparknlp_jsl
+from sparknlp.annotator import *
+from sparknlp_jsl.annotator import *
+from sparknlp.base import *
+from sparknlp.util import *
+
+import re
 
 tc = '■' # temporary character for replacement
 
@@ -67,6 +76,26 @@ class anonymizer:
       elif model=='regex':
         # All the regex refers to Italian Style for telephone, zip code, etc ---
         pass # nothing to load
+      elif model=='john':
+        from sparknlp.pretrained import PretrainedPipeline
+        from pyspark.ml import Pipeline, PipelineModel
+        from pyspark.sql import SparkSession
+
+        with open('spark_jsl.json') as f:
+          license_keys = json.load(f)
+
+        # Defining license key-value pairs as local variables
+        locals().update(license_keys)
+        os.environ.update(license_keys)
+
+        params = {"spark.driver.memory": "16G",
+                  "spark.kryoserializer.buffer.max": "2000M",
+                  "spark.driver.maxResultSize": "2000M"}
+
+        from sparknlp.pretrained import ResourceDownloader
+        from pyspark.sql import functions as F
+        spark = sparknlp_jsl.start(secret=os.environ.get('SECRET'), params=params)
+        self.m_john = PretrainedPipeline("clinical_deidentification", "it", "clinical/models")
       elif model!='':
         print(f'{model} is not a supported model. Please check the documentation for the list of supported models for each field')
     for model in prev_models-current_models: # using set difference to release memory for no more needed models
@@ -166,6 +195,8 @@ class anonymizer:
       if concat: self.dbs = pd.concat((self.dbs, db))
       self.tracker.loc[self.tracker['entity_type']=='telephone','status']=True
       return db
+    elif self.models['telephone']=='john':
+      return self.Find_with_John(inputText, concat)
     elif self.models['telephone']=='':
       return empty_db()
     else:
@@ -183,6 +214,8 @@ class anonymizer:
       return db
     elif self.models['zipcode']=='':
       return empty_db()
+    elif self.models['zipcode']=='john':
+      return self.Find_with_John(inputText, concat)
     else:
       print('WARNING: Unsupported model for zipcode anonymization')
       return empty_db()
@@ -198,6 +231,8 @@ class anonymizer:
       return db
     elif self.models['email']=='':
       return empty_db()
+    elif self.models['email']=='john':
+      return self.Find_with_John(inputText, concat)
     else:
       print('WARNING: Unsupported model for e-mail anonymization')
       return empty_db()
@@ -213,6 +248,8 @@ class anonymizer:
       return db
     elif self.models['fiscal_code']=='':
       return empty_db()
+    elif self.models['fiscal_code']=='john':
+      return self.Find_with_John(inputText, concat)
     else:
       print('WARNING: Unsupported model for fiscal code anonymization')
       return empty_db()
@@ -224,6 +261,8 @@ class anonymizer:
       return self.Find_with_Spacy(inputText, concat)
     elif self.models['person']=='':
       return empty_db()
+    elif self.models['person']=='john':
+      return self.Find_with_John(inputText, concat)
     else:
       print('WARNING: Unsupported model for person anonymization')
       return empty_db()
@@ -235,6 +274,8 @@ class anonymizer:
       return self.Find_with_Spacy(inputText, concat)
     elif self.models['organization']=='':
       return empty_db()
+    elif self.models['organization']=='john':
+      return self.Find_with_John(inputText, concat)
     else:
       print('WARNING: Unsupported model for organization anonymization')
       return empty_db()
@@ -246,6 +287,8 @@ class anonymizer:
       return self.Find_with_Spacy(inputText, concat)
     elif self.models['address']=='':
       return empty_db()
+    elif self.models['address']=='john':
+      return self.Find_with_John(inputText, concat)
     else:
       print('WARNING: Unsupported model for address anonymization')
       return empty_db()
@@ -264,6 +307,8 @@ class anonymizer:
       return db
     elif self.models['date']=='':
       return empty_db()
+    elif self.models['date']=='john':
+      return self.Find_with_John(inputText, concat)
     else:
       print('WARNING: Unsupported model for date anonymization')
       return empty_db()
@@ -301,6 +346,21 @@ class anonymizer:
     else:
       return empty_db() # entities already found by another Find call of the same model
 
+  def Find_with_John(self, inputText, concat=False):
+    ents = self.tracker[self.tracker['model']=='john']
+    ents_todo = ents[ents['status']==False]
+    if len(ents_todo)>0: # check if there are still entities to find
+      annotations = self.m_john.fullAnnotate(inputText)
+      span_list = [(a.begin, a.end, a.metadata['entity'], a.result) for a in annotations[0]['ner_chunk'] if a.metadata['entity'] == 'SSN']
+      db = pd.DataFrame(span_list, columns=['start','end','entity_type','text'])
+      db['entity_type'] = db['entity_type'].replace({'DOCTOR':'person','PATIENT':'person', 'CITY':'address','HOSPITAL':'organization' ,'E-MAIL':'email', 'AGE':'age', 'SSN':'fiscal_code', 'ZIP':'zipcode', 'TELEPHONE':'telephone'})
+      db = db[db['entity_type'].isin(ents_todo['entity_type'])].copy() # keep only entities selected with this model
+      db['entity_type'] = db['entity_type'].replace({'person':'PERSONA','address':'INDIRIZZO','organization':'ORGANIZZAZIONE', 'email':'E-MAIL', 'age':'ETA', 'fiscal_code':'CF', 'zipcode':'CAP', 'telephone':'TELEFONO'})
+      if concat: self.dbs = pd.concat((self.dbs, db))
+      self.tracker.loc[self.tracker['entity_type'].isin(ents_todo['entity_type']),'status']=True # set detected entities as done
+      return db
+    else:
+      return empty_db() # entities already found by another Find call of the same model
 
 
 if __name__ == '__main__':
