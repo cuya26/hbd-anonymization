@@ -1,0 +1,163 @@
+LETTERA DI DIMISSIONE 
+ 
+Sig. <NAME>#########  (nato il <DATE>####) 
+PSD004
+ 
+<LOC>##############, <LOC>#,  <DATE>## 
+Alla cortese attenzione 
+del Medico Curante 
+ 
+ 
+Alla cortese attenzione  
+Etichetta paziente 
+Ai Colleghi della  
+Divisione di Cardiologia Riabilitativa 
+<LOC>### 
+ 
+Viene dimesso  in data odierna il Sig. <NAME>#########, di <AGE>##, ricoverato presso la nostra Unità Operativa in 
+data <DATE>## 
+  
+DIAGNOSI DI DIMISSIONE 
+CORONAROPATIA CRITICA TRIVASALE IN ESITI DI RECENTE PCI/DES SU CDX SOTTOPOSTO 
+AD INTERVENTO DI RIVASCOLARIZIONE MIOCARDICA MEDIANTE BPAC X 4 (LIMA-IVA, AO-DG-
+MG-IVP SEQUENZIALE) 
+ 
+ANAMNESI CARDIOLOGICA 
+FDR CV: ipertensione arteriosa, in sovrappeso, ex fumatore, ex abuso di eroina. 
+ 
+MDR: coronaropatia critica trivasale in esiti di recente PCI/DES su CDx 
+ 
+Storia cardiologica: Non precedenti cardiologici. 
+In data <DATE>## accesso c/o PS di Vimercate per dolore toracico altalenante presente da 10 gg ed 
+associato a rialzo pressorio, divenuto persistente il giorno del ricovero-->all'ECG ritmo sinusale con 
+piccola onda Q inferiore con persistente sopraST omosede, paziente ancora sintomatico per angor 
+anche se dolore ridotto. 
+Ecocardiogramma eseguito in acuto: VSx di normali dimensioni, ipertrofia parietale, ipoacxinesia 
+inferiore e posteriore basale, FE conservata, Asx nei limiti, cavità dx nella norma, non valvulopatie di 
+rilievo, non versamento pericardico. 
+Vista la persistenza di dolroe veniva inviato in emodinamica per CGR urgente-->CGR (<DATE>##): severa 
+coronaropatia critica aterosclerotica con stenosi significativa di IVA prossimale, occlusione al tratto 
+medio, malattia multisgemnetale di Dg1, subollcusione di RI a sx, stenosi subocclusiva di CDx 
+prossimale, stenosi critica di PL ed occlusione di IVP-->PCI+DES su CDx prossimale, stenting in sede 
+di stenosi significativa di grosso PL, riapertura di occlusione di IVP che presenta malattia diffusa 
+multifocale ed impianto di DES all'origine di tale ramo. 
+Durante la successiva degenza in UTIC comparsa di rash cutaneo al tronco ed al volto, evoluzione ECG 
+come da IMA inferiore in III stadio, modesto picco di CPK massa (36 ng/ml)-->posta indicazione ad 
+intervento cardiochirurgico. 
+Ecocardiogramma (<DATE>##): VSx di normali dimensioni con ipertrofia settale lieve, aciensia del tratto 
+medio-basle  inferiore,  FE  60%,  normale  pattern  diastolico  ventricolare  sx,  basse  pressioni  di 
+riempimento, normale morfologia e flussimetria valvolarem camere dx di normali dimensioni e funzione, 
+PAPs stimata nei limiti di norma, bulbo aortico, tratto ascendente e arco di normali dimensioni, non 
+versamento pericardico. 
+EcoTSA (<DATE>##): non stenosi emodinamicamente significative. 
+Il paziente riferisce febbre serotina il <DATE>## e <DATE>##, eseguito tampone per SARS-COV2 c/o nostro 
+Centro il <DATE>##, negativo, non più febbre nelle ultime 36 ore, non altra sintomatologia associata. 
+ 
+ 
+ANAMNESI GENERALE 
+HCV +, riferito trattamento con interferon circa 10 anni fa. Riscontro ecografico di plurimi noduli tiroidei 
+nel <DATE>#####, esecuzione di agoaspirato su nodulo dx, all'es. istologico nodulo benigno. 
+ 
+ACCERTAMENTI PRE OPERATORI 
+Tampone per Sars-Cov2 (<DATE>##): negativo.  
+ 
+Sierologia per Sars-Cov2 (<DATE>##): negativa per IgM e positiva per IgG come da pregresso contatto 
+con il virus.  
+ 
+Tampone nasale screening MRSA/MSSA (<DATE>##): negativo. 
+ 
+Ecocardiogramma TT (<DATE>##): Scarsa finestra acustica. 
+Ventricolo sinistro di normali dimensioni cavitarie e spessori parietali, con funzione sistolica globale 
+conservata (FE 52%). Pattern di riempimento da alterato rilasciamento diastolico di grado I. Non 
+significative anomalie della cinesi regionale. Atrio sinistro di normali dimensioni (LAVI 22 ml/m2). Atrio 
+destro di normali dimensioni. Valvola mitrale con lembi ispessiti e apertura valvolare conservata, 
+continente. Valvola aortica tricuspide, con cuspidi normali, con emodinamica conservata, continente. 
+Radice aortica e aorta ascendente di normali dimensioni. Arco aortico prossimale non visualizzabile per 
+scarsa ecogenicità. Ventricolo destro di normali dimensioni con normale funzione sistolica del ventricolo 
+destro (TAPSE 25 mm; onda S' 11.5 cm/sec). Insufficienza tricuspidalica in tracce con PAPs non 
+campionabile.  Vena  cava  inferiore  non  dilatata  con  normali  escursioni  respiratorie.  Assenza  di 
+versamento pericardico (vedi allegato). 
+ 
+INTERVENTO CARDIOCHIRURGICO 
+In data <DATE>## il pz è stato sottoposto ad intervento di rivascolarizione miocardica mediante 
+BPAC  X  4  (LIMA-IVA,  Ao-Dg-Mg-IVP  sequenziale),  Dr. <NAME>###  (Vedi  verbale  Operatorio 
+allegato). 
+ 
+DECORSO CLINICO POST-OPERATORIO 
+ 
+TERAPIA INTENSIVA  
+-  Supporto inotropo con noradrenalina per vasoplegia 
+-  Aumentato fabbisogno diuretico 
+ 
+REPARTO (rientra il  <DATE>##): 
+-  Scmabi tendenzialmente ipossici con tendenza alla desaturazione iniziale 
+-  Graduale riduzione della terapia diuretica 
+-  Reimpostata DAPT in relazione alla storia anamnestica 
+-  Restante decorso regolare 
+-  Per tendenza ipotensiva sospesa la terapia con ACE-I e impostato riempimento volemico. 
+ 
+ECG alla dimissione: ritmo sinusale regolare a 75 bpm. 
+ 
+Rx torace <DATE>##: Permane falda di versamento pleurico bibasale più accentuata a sinistra con 
+associate note disventilative. Invariati i restanti reperti. 
+ 
+Ecocardiogramma TT <DATE>##: Esiti di by-pass ao-cor x 4 ima-iva ao-diag-marg-ivp sequenziale. 
+Ventricolo sinistro di normali dimensioni cavitarie con ipertrofia concentrica e funzionalità contrattile 
+globale conservata (FE=57%). Discinesia del SIV post CEC. Lembi mitralici sottili con buona mobilità 
+sisto-diastolica. Assenza di rigurgiti patologici. Atrio sinistro di normali dimensioni. Pattern diastolico 
+normale. Valvola aortica tripartita con buona mobilità sisto-diastolica delle cuspidi. Assenza di rigurgiti 
+ 
+patologici. Bulbo aortico ed aorta ascendente di normale calibro. Cavità destre normovolumetriche ed 
+ipocinetiche (TAPSE: 11 mm). IT assente. PAPs non campionabili. Assenza di versamento pericardico 
+emodinamicamente significativo (vedi allegato). 
+ 
+Tampone per Sars-Cov2 (<DATE>## e <DATE>##): negativo.  
+ 
+Al momento della dimissione, paziente in discrete condizioni generali, sterno saldo, ferita in ordine, 
+attività cardiaca ritmica, normofrequente; MV diffusamente ridotto, assente alle basi. 
+ 
+TERAPIA FARMACOLOGICA ALLA DIMISSIONE 
+-  PANTOPRAZOLO 20 mg 1 cp alle ore 8 
+-  ACIDO ACETILSALICILICO 100 mg 1 cp dopo pranzo 
+-  TICAGRELOR 90 mg 1 cp alle ore 8 e 1 cp alle ore 20 
+-  BISOPROLOLO 1.25 mg 1 cp alle ore 8 e 1 cp alle ore 20 
+-  FUROSEMIDE 25 mg 2 cp alle ore 8 e 1 cp alle ore 20  
+-  CANREONATO DI POTASSIO 100 mg ½ cp alle ore 16 
+-  ATORVASTATINA 40 mg 1 cp alle ore 22 
+-  TIOTROPIO RESPIMAT 2 inalazioni al mattino  
+-  PREDNISONE 25 mg 1 cp alle ore 8 per 5 giorni, quindi scalare 
+ 
+PROFILASSI DELL’ENDOCARDITE BATTERICA 
+In caso di procedure mediche e odontoiatriche invasive o semi-invasive si raccomanda esecuzione di 
+profilassi antibiotica della endocardite batterica secondo lo schema (tipo di Antibiotico, dosi e modalità 
+di assunzione) riportato nel modulo allegato. Nel modulo sono riportate in dettaglio tutte le procedure 
+per le quali è indicata l’esecuzione della profilassi antibiotica.  
+ 
+È possibile che alcune delle prescrizioni consigliate non siano a carico del SSN a causa di vincoli di prescrivibilità posti 
+dall’Agenzia Italiana del Farmaco (AIFA) e pertanto siano a carico dell’assistito (Art. 3 Legge <DATE>#### n. 94, 
+determinazione <DATE>## suppl. 162 GU 259).  
+ 
+PROGRAMMA DI CONTINUITÀ DELLE CURE 
+Successivamente al completamento del programma di riabilitazione, a distanza di circa 2 mesi dalla data 
+dell’intervento, il Paziente è atteso per un controllo cardiochirurgico portando in visione Radiografia del 
+torace, Ecocardiogramma color-Doppler, ECG di controllo: la preghiamo di contattare direttamente la 
+nostra Segreteria per fissare la data dell’appuntamento.  
+ 
+ 
+Rimaniamo a disposizione per ogni eventuale ulteriore informazione o chiarimento.  
+ 
+Cordiali Saluti 
+ 
+   
+ 
+ 
+Le Regole di Sistema della Regione <LOC>#### prevedono che gli utenti siano informati sui costi che il Servizio 
+Sanitario Regionale sostiene per le attività di ricovero di cui hanno usufruito.  
+Il valore di € 17855 rappresenta il rimborso corrisposto mediamente agli ospedali della <LOC>#### per il costo 
+sostenuto per il presente ricovero.   
+ 
+ 
+NEL CASO DI ULTERIORI ACCESSI AL NOSTRO ISTITUTO PER VISITE DI CONTROLLO O PER PRESTAZIONI 
+AMBULATORIALI LE RICORDIAMO DI PORTARE CON SE QUESTA RELAZIONE DI DIMISSIONE, UNITAMENTE A TUTTA 
+ 
+LA DOCUMENTAZIONE DI ORDINE CLINICO CHE LE È STATA RILASCIATA AL MOMENTO DELLA DIMISSIONE

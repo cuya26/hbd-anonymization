@@ -1,0 +1,170 @@
+LETTERA DI DIMISSIONE 
+ 
+Sig. <NAME>#####  (nato il <DATE>####) 
+PSD003
+ 
+<LOC>##############, <LOC>#,  <DATE>## 
+Alla cortese attenzione 
+del Medico Curante 
+ 
+ 
+Alla cortese attenzione  
+Etichetta paziente 
+Ai Colleghi della  
+Divisione di Cardiologia Riabilitativa 
+<ORG>####################### 
+ 
+Viene dimesso in data odierna il Sig. <NAME>#####, di <AGE>##, ricoverato presso la nostra Unità Operativa 
+in data <DATE>##  
+  
+DIAGNOSI DI DIMISSIONE 
+STENOSI VALVOLARE AORTICA IN BICUSPIDIA, ANEURISMA DELL’AORTA ASCENDENTE 
+SOTTOPOSTO AD INTERVENTO DI SOSTITUZIONE VALVOLARE AORTICA E SOSTITUZIONE 
+AORTA  ASCENDENTE  CON  REIMPIANTO  DELLE  ARTERIE  CORONARIE  CON  TUBO 
+VALVOLATO MECCANICO SJM N° 27 (INTERVENTO SECONDO BENTALL) 
+ 
+ANAMNESI CARDIOLOGICA 
+FDR CV: familiarità per CAD. 
+ 
+MDR: stenosi valvolare aortica in bicuspidia, aneurisma dell’aorta ascendente 
+ 
+Storia cardiologica: Paziente noto per bicuspidia della valvola aortica. 
+Test cardiopolmonare massimale nel <YEAR>: lieve-moderata riduzione della capacità funzionale, lieve 
+segni di limitazione cardiogenica/decondizionamento, non limitazione ventilatoria, non limitazione 
+vascolare polmonare. Vo2max 18 ml/kg/min. 
+All'eco di dicembre <YEAR> Dilatazione aneurismatica della radice aortica (47mm) e ascendente (40mm). 
+Stenosi della valvola aortica grad medio 38mmHg. 
+ANGIO TC AORTA TORACICA <DATE>####: regolare origine aortica dei TSA, dilatazione anuerismatica 
+dell'aorta ascendente, non segni di dissezione o ematoma intramurale. Valvola aortica morfologicamente 
+tricuspide. Bulbo 55mm, giunzione sinotubulare 48mm, corpo 42mm, arco 32mm, discendente 30mm. 
+ 
+ANAMNESI GENERALE 
+Tampone per Sars-Cov-2 negativo <DATE>#### 
+ 
+ACCERTAMENTI PRE OPERATORI 
+Tampone per Sars-Cov2 (<DATE>## pre-ricovero): negativo.  
+ 
+Sierologia per Sars-Cov2 (<DATE>### pre-ricovero): negativo.  
+ 
+Tampone nasale screening MRSA/MSSA (<DATE>## prericovero): negativo. 
+ 
+Ecocardiogramma TT (<DATE>##): Scarsa finestra acustica per elevata impedenza. 
+Ventricolo sinistro di dimensioni cavitarie dilatate e spessori parietali conservati con funzione sistolica 
+globale conservata (FE 59%). Pattern di funzione diastolica del ventricolo sinistro di grado I. Cinetica 
+ 
+segmentaria conservata. Valvola aortica con morfologia di difficile valutazione a causa della diffusa 
+degenrazione, con dinamica di apertura discreta, condizionanti ampio jet di rigurgito eccentrico di grado 
+severo. Dimensioni aortiche: 
+- radice aortica a livello dei seni di Valsalva di 52 mm; 
+- giunzione sino-tubulare obliterata; 
+- tratto tubulare dell'aorta ascendente di 53 mm a distanza di 5.5 cm dal piano valvolare aortico (inner 
+edge to inner edge convetion). 
+Atrio sinistro di normali dimensioni. Atrio destro di normali dimensioni. Valvola mitrale con lembi ispessiti, 
+in particolare il LAM risulta rimaneggiato per effetto del rigurgito valvolare aortico cronico, condizionante 
+minimo jet eccentrico. Ventricolo destro di normali dimensioni con normale accorciamento longitudinale. 
+IT in tracce con PAPs non campionabile. Vena cava inferiore di normali dimensioni, collassante. Non 
+versamento pericardico (vedi allegato). 
+ 
+Doppler TSA (<DATE>## pre-ricovero): Bilateralmente si rileva pervietà delle carotidi comune, interna 
+ed esterna, con IMT della CCA di 1.1 mm a destra e 1.1 mm a sinistra, in assenza di lesioni stenosanti 
+e con reperti velocimetrici nei limiti. Si segnala loop della carotide interna sinistra all’origine in assenza 
+di  accelerazioni  patologiche.  Vertebrali  bilateralmente  pervie  ed  ortograde  in  V2.  Succlavie 
+bilateralmente pervie con segnale trifasico (vedi allegato). 
+ 
+Coronarografia (<DATE>##): indenne da stenosi significative.    
+ 
+INTERVENTO CARDIOCHIRURGICO 
+In data <DATE>##, il pz è stato sottoposto ad intervento di sostituzione valvolare aortica e 
+sostituzione  aorta  ascendente  con  reimpianto  delle  arterie  coronarie  con  tubo  valvolato 
+meccanico SJM n° 27 (intervento secondo Bentall, Dr. <NAME>###), Vedi verbale Operatorio 
+allegato. 
+ 
+DECORSO CLINICO POST-OPERATORIO 
+ 
+TERAPIA INTENSIVA  
+-  Iniziale supporto con milrinone 
+-  Restante decorso regolare 
+ 
+REPARTO (rientra il  <DATE>##) 
+-  Lembi di FAP al monitoraggio telemetrico 
+-  Dolore e tumefazione del braccio dx senza evidenza di sospetto ischemico, verosimilmente da 
+collerare a stravaso ematico, trattato con ghiaccio e antinfiammatorio e arto in scarico con 
+progressivo beneficio 
+-  In data <DATE>## emotrasfuso con n° 2 unità di EC 
+ 
+ECG alla dimissione: ritmo sinusale regolare a 73 bpm, BESV, IVS. 
+ 
+Rx torace <DATE>##: Rimosso il CVC. Polmoni a parete. Permane falda di versamento pleurico bibasale 
+più accentuato a sinistra. Sostanzialmente invariati i restanti reperti (vedi allegato). 
+ 
+Ecocardiogramma TT <DATE>##: Esiti di intervento secondo Bentall. Sostituzione valvolare aortica con 
+protesi meccanica St Jude n .27, normoposta, con gradiente medio del flusso anterogrado di 15 mmHg. 
+Non evidenza di flussi patologici. Tubo protesico in aorta ascendente, normoposto e normofunzionante 
+Ventricolo sinistro di dimensioni cavitarie dilatate e spessori parietali conservati con funzione sistolica 
+globale conservata (FE 66%). Pattern di funzione diastolica del ventricolo sinistro di grado II. Cinetica 
+segmentaria discinesia del SIV post-CEC. Atrio sinistro di normali dimensioni. Atrio destro di normali 
+dimensioni. Valvola mitrale con lembi ispessiti, in particolare il LAM risulta rimaneggiato per effetto del 
+rigurgito valvolare aortico cronico, condizionante minimo jet eccentrico. Ventricolo destro di normali 
+ 
+dimensioni con ridotto accorciamento longitudinale. IT in tracce con PAPs stimata di 26 mmHg. Vena 
+cava inferiore di normali dimensioni, collassante. Presenza di versamento pericardico con segni di 
+riorganizzazione presente prevalentemente sulla parete laterale del ventricolo destro di diametro 
+massimo telediastolico di 11 mm attualmente privo di alcun impatto emodinamico. Da rivalutare dopo 24 
+h (vedi allegato). 
+ 
+Ecocardiogramma TT <DATE>## controllo versamento pericardico: In merito al quesito specifico, si 
+conferma la presenza di versamento pericardico, circonferenziale, con segni di riorganizzazione 
+presente prevalentemente sulla parete laterale del ventricolo destro di diametro massimo telediastolico 
+di 11-12 mm attualmente privo di alcun impatto emodinamico e di 3 mm lungo la parete laterale del 
+ventricolo sinistro a livello della giunzione AV sinistra (vedi allegato)(cid:1)da ricontrollare a breve. 
+ 
+Tampone per Sars-Cov2 (<DATE>## e <DATE>##): negativo.  
+ 
+Al momento della dimissione, paziente in discrete condizioni generali, sterno saldo, ferita in ordine, 
+attività cardiaca ritmica, normofrequente; MV normotramesso, no stasi polmonare né periferica. 
+ 
+TERAPIA FARMACOLOGICA ALLA DIMISSIONE 
+-  PANTOPRAZOLO 20 mg 1 cp alle ore 8 
+-  ACENOCUMAROLO 4 mg sec INR alle ore 18 (INR del 06.04.21 = 1.73 dose ¼ cp, INR odierno 
+= 1.66 dose ½ cp da somministrare) 
+-  BISOPROLOLO 1.25 mg 1 cp alle ore 8 e 1 cp alle ore 20 
+-  RAMIPRIL 5 mg 1 cp alle ore 8  
+-  FUROSEMIDE 25 mg 1 cp alle ore 8 e 1 cp alle ore 20 
+-  CANREONATO DI POTASSIO 25 mg 1 cp alle ore 16 
+-  ENOXAPARINA 4000 U sc alle ore 18 fino al raggiungimento di INR stabile e terapeutico 
+-  ESCITALOPRAM 10 mg 1 cp alle ore 22 
+ 
+PROFILASSI DELL’ENDOCARDITE BATTERICA 
+In caso di procedure mediche e odontoiatriche invasive o semi-invasive si raccomanda esecuzione di 
+profilassi antibiotica della endocardite batterica secondo lo schema (tipo di Antibiotico, dosi e modalità 
+di assunzione) riportato nel modulo allegato. Nel modulo sono riportate in dettaglio tutte le procedure 
+per le quali è indicata l’esecuzione della profilassi antibiotica.  
+ 
+È possibile che alcune delle prescrizioni consigliate non siano a carico del SSN a causa di vincoli di prescrivibilità posti 
+dall’Agenzia Italiana del Farmaco (AIFA) e pertanto siano a carico dell’assistito (Art. 3 Legge <DATE>#### n. 94, 
+determinazione <DATE>## suppl. 162 GU 259).  
+ 
+PROGRAMMA DI CONTINUITÀ DELLE CURE 
+Successivamente al completamento del programma di riabilitazione, a distanza di circa 2 mesi dalla data 
+dell’intervento, il Paziente è atteso per un controllo cardiochirurgico portando in visione Radiografia del 
+torace, Ecocardiogramma color-Doppler, ECG di controllo: la preghiamo di contattare direttamente la 
+nostra Segreteria per fissare la data dell’appuntamento.  
+ 
+ 
+Rimaniamo a disposizione per ogni eventuale ulteriore informazione o chiarimento.  
+ 
+Cordiali Saluti 
+ 
+   
+ 
+ 
+Le Regole di Sistema della Regione <LOC>#### prevedono che gli utenti siano informati sui costi che il Servizio 
+Sanitario Regionale sostiene per le attività di ricovero di cui hanno usufruito.  
+ 
+Il valore di € 23867 rappresenta il rimborso corrisposto mediamente agli ospedali della <LOC>#### per il costo 
+sostenuto per il presente ricovero.   
+ 
+ 
+NEL CASO DI ULTERIORI ACCESSI AL NOSTRO ISTITUTO PER VISITE DI CONTROLLO O PER PRESTAZIONI 
+AMBULATORIALI LE RICORDIAMO DI PORTARE CON SE QUESTA RELAZIONE DI DIMISSIONE, UNITAMENTE A TUTTA 
+LA DOCUMENTAZIONE DI ORDINE CLINICO CHE LE È STATA RILASCIATA AL MOMENTO DELLA DIMISSIONE 
