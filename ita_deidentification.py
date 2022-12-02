@@ -14,11 +14,12 @@ import json
 import os
 
 import sparknlp
-import sparknlp_jsl
+import sparknlp_jsl #i
 from sparknlp.annotator import *
 from sparknlp_jsl.annotator import *
 from sparknlp.base import *
 from sparknlp.util import *
+# nota: verificare se servono tutti questi import per jhonsnowlab o bastano quelli con #i
 
 import re
 
@@ -77,9 +78,12 @@ class anonymizer:
         # All the regex refers to Italian Style for telephone, zip code, etc ---
         pass # nothing to load
       elif model=='john':
-        from sparknlp.pretrained import PretrainedPipeline
+        from sparknlp.pretrained import PretrainedPipeline #i
         from pyspark.ml import Pipeline, PipelineModel
         from pyspark.sql import SparkSession
+        from sparknlp.pretrained import ResourceDownloader
+        from pyspark.sql import functions as F
+        # nota: verificare se servono tutti questi import per jhonsnowlab o bastano quelli con #i
 
         with open('spark_jsl.json') as f:
           license_keys = json.load(f)
@@ -92,8 +96,6 @@ class anonymizer:
                   "spark.kryoserializer.buffer.max": "2000M",
                   "spark.driver.maxResultSize": "2000M"}
 
-        from sparknlp.pretrained import ResourceDownloader
-        from pyspark.sql import functions as F
         spark = sparknlp_jsl.start(secret=os.environ.get('SECRET'), params=params)
         self.m_john = PretrainedPipeline("clinical_deidentification", "it", "clinical/models")
       elif model!='':
@@ -152,15 +154,8 @@ class anonymizer:
       outText += inputText[p_end:row['start']] # concats normal text between spans
 
       if row['entity_type']=='DATA' and date_level!='hide': # additional types of anonymization for dates
-        tuple_months = ('gennaio','01'),('gen','01'),('febbraio','02'),('feb','02'),('marzo','03'),('mar','03'),('aprile','04'),('apr','04'),('maggio','05'),('mag','05'),('giugno','06'),('giu','06'),('luglio','07'),('lug','07'),('agosto','08'),('ago','08'),('settembre','09'),('set','09'),('ottobre','10'),('ott','10'),('novembre','11'),('nov','11'),('dicembre','12'),('dic','12')
         data_to_hide = row['text']
-        if(not(re.search('[a-zA-Z]', data_to_hide)) == None):
-          data_to_hide = reduce(lambda a, kv: a.replace(*kv), tuple_months, data_to_hide) # replaces textual month with numeric equivalent
-        try:
-          data_finder = dateutil.parser.parse(data_to_hide, dayfirst=True)
-        except dateutil.parser.ParserError as e:
-          print('WARNING: Date parsing error: ', e, '... Ignoring the match ', data_to_hide)
-          continue
+        data_finder = dateutil.parser.parse(data_to_hide, dayfirst=True)
         if date_level == 'year':
           outText += f'{data_finder.year}'
         elif date_level == 'month':
@@ -188,7 +183,7 @@ class anonymizer:
   # concat is false by default meaning results won't be appended to object dbs, letting you call individual functions when needed
   def FindTelephone(self, inputText, concat=False):
     if self.models['telephone']=='regex':
-      matches = re.finditer('(?:((\+?\(?\d{2,3}\)?)|(\(\+?\d{2,3}\))) ?)?(((\d{2}[\ \-\.\/]?){3,5}\d{2})|((\d{3}[\ \-\.\/]?){2}\d{4}))', inputText)
+      matches = re.finditer('(?:(\(?(?:\+|00)\(?\d{2,3}\)?)[\s\-\.\\\\]?)?((?:3\d{2}[\s\-\.\/\\\\]?\d{7})|(?:0\d[\s\-\.\/\\\\]?\d{8})|(?:0\d{2}[\s\-\.\/\\\\]?\d{7})|(?:0\d{3}[\s\-\.\/\\\\]?\d{6}))', inputText)
       span_list = [(match.span()[0], match.span()[1], match.group()) for match in matches]
       db = pd.DataFrame(span_list, columns=['start','end','text'])
       db['entity_type'] = 'TELEFONO'
@@ -304,7 +299,7 @@ class anonymizer:
       db['entity_type'] = 'DATA' #this is important to check for additional anonym. types for dates. if you change this, should also change the if in mask_data
       self.tracker.loc[self.tracker['entity_type']=='date','status']=True
     elif self.models['date']=='':
-      db = empty_db()
+      return empty_db()
     elif self.models['date']=='john':
       db = self.Find_with_John(inputText, concat)
     else:
@@ -314,7 +309,6 @@ class anonymizer:
     m = db.apply(self.IsValidDate, axis=1)
     db = db[m]
     if concat: self.dbs = pd.concat((self.dbs, db))
-
     return db
 
   def IsValidDate(self, df_row):
@@ -324,13 +318,11 @@ class anonymizer:
                   'luglio', '07'), ('lug', '07'), ('agosto', '08'), ('ago', '08'), ('settembre', '09'), ('set', '09'), (
                   'ottobre', '10'), ('ott', '10'), ('novembre', '11'), ('nov', '11'), ('dicembre', '12'), ('dic', '12')
     if (not (re.search('[a-zA-Z]', dateText)) == None):
-      dateText = reduce(lambda a, kv: a.replace(*kv), tuple_months,
-                            dateText)  # replaces textual month with numeric equivalent
+      dateText = reduce(lambda a, kv: a.replace(*kv), tuple_months, dateText)  # replaces textual month with numeric equivalent
     try:
       dateutil.parser.parse(dateText, dayfirst=True)
-    except dateutil.parser.ParserError as e:
+    except dateutil.parser.ParserError: #as e:
       return False
-
     return True
 
   # ner functions for multiple entities, to avoid rerunning
@@ -390,7 +382,7 @@ if __name__ == '__main__':
   Il 10 9 2021 ha avuto un intervento chirurgico.  marina-61@virgilio.it.
   Il sign. Rossi ha come numero di telefono di casa 0574 569852.
   Si rimanda al prossimo controllo in data 4/09/2022. Gennaio 2020.
-  Il paziente era accompagnato dalla figlia Viola Rossi con telefono +39 255 7401545.
+  Il paziente era accompagnato dalla figlia Viola Rossi con telefono +39 355 7401545.
   Da prendere al bisogno 72 mg di aspirina 7 gennaio 2020.
   Il 12/22 c'è stato il sole
   Il paziente lascia il suo numero di cellulare: 3841202587 valido fino al 18 MARZO 2021.

@@ -13,7 +13,7 @@ You can change the script behavior by editing the config.json file.
 Set the desired models to use in the config.json file, under the "models" section. Leave the field empty if you don't want to anonymize it.  
 Currently these are the fields that can be anonymized:
 #### Telephone
-Supported models: regex  
+Supported models: regex, john  
 Covered cases (regex):  
 >3491234567  
 +393491234567  
@@ -21,9 +21,7 @@ Covered cases (regex):
 (+39)3491234567  
 +(39) 349 8505734  
 349 8505734  
-3498505734   
-+39 349 850 5734  
-349 850 5734  
+349-8505734  
 0543 721370  
 0543721370  
 06 43721370  
@@ -31,20 +29,20 @@ Covered cases (regex):
 064/3721370  
 
 #### Zipcode
-Supported models: regex  
+Supported models: regex, john  
 Covered cases (regex):  
 >47122  
 01010  
 
 #### Email
-Supported models: regex  
+Supported models: regex, john  
 Covered cases (regex):  
 >mario.rossi@libero.it  
 m.r@l.it  
 m5.r2@v2.it  
 
 #### Date
-Supported models: regex  
+Supported models: regex, john  
 Covered cases (regex):  
 >28/06/2022  
 10 9 2021  
@@ -56,16 +54,17 @@ Gennaio 2020.
 12/22  
 
 #### Fiscal code
-Supported models: regex  
+Supported models: regex, john  
+Covered cases: Italian fiscal code for regex model, social security number for john model
 
 #### Person
-Supported models: stanza, spacy
+Supported models: stanza, spacy, john
 
 #### Organization
-Supported models: stanza, spacy
+Supported models: stanza, spacy, john
 
 #### Address
-Supported models: stanza, spacy
+Supported models: stanza, spacy, john
 
 ### Mask modes
 Set the desired mask mode and special character in the "mask" section of the config.json file.  
@@ -84,11 +83,13 @@ With the "date_level" parameter you can choose how to anonymize dates. Supported
 * **year** : Keep only the month and the year
 
 ### Models details
-* **regex** : This model was developed by HBD-anonymization team to specifically recognize some italian entities (like fiscal code and postal code) and some more generic ones (like telephones and dates) using regular expressions.  
+* **regex** : This model was developed by HBD-anonymization team to specifically recognize some italian entities (like fiscal code, telephone and postal code) and some more generic ones (like dates) using regular expressions. Supported entities are: **date**, **telephone**, **email**, **zipcode** and **fiscal code**.  
 More info: https://en.wikipedia.org/wiki/Regular_expression
 * **spacy** : spaCy is an open-source software library for advanced natural language processing. The model used in this script is it_core_news_lg, a pipeline comprehending tokenization, lemmatization and named entity recognition, trained on a large news database. Supported entities are: **person**, **organization** and **address**.  
 More info: https://spacy.io/models/it#it_core_news_lg
 * **stanza** : stanza is The Stanford NLP Group's official Python NLP library. The model used in this script is the italian pipeline, comprehending tokenization and NER, trained on FBK dataset. Supported entities are: **person**, **organization** and **address**.  
 More info: https://stanfordnlp.github.io/stanza/ner_models.html
+* **john** : JohnSnowLabs is an american AI & NLP company that helps healthcare & life science organizations. The model used in this script is clinical_deidentification italian, part of the Healthcare NLP licensed package, comprehending tokenization and NER. Supported entities are: **person**, **organization**, **address**, **date**, **telephone**, **email**, **zipcode**, **fiscal code** and **age**.  
+More info: https://nlp.johnsnowlabs.com/2022/03/28/clinical_deidentification_it_2_4.html
 
 
