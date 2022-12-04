@@ -32,14 +32,24 @@ jobs:
           pip install datefinder
           pip install runipy
           pip install ipython
+          pip install nbconvert
+          
       - name: execute py script 
-        run: runipy evaluation_notebook.ipynb 
+        run: |
+          ipython nbconvert — to script evaluation_notebook.ipynb
+          python evaluation_notebook.py
+          rm -rf evaluation_notebook.py
+          
+      - name: remove generated py
+        run: rm -rf evaluation_notebook.py
+        
       - name: commit files
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
           git commit -m "update data" -a
+          
       - name: push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
