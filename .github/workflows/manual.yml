@@ -33,7 +33,7 @@ jobs:
           
       - name: execute py script 
         run: |
-          ipython nbconvert --to script evaluation_notebook.ipynb
+          ipython nbconvert evaluation_notebook.ipynb
           python evaluation_notebook.py
           rm -rf evaluation_notebook.py
           
