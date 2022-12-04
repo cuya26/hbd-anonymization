@@ -33,7 +33,7 @@ jobs:
           pip install seaborn
           pip install matplotlib
           pip install pyspark==3.1.2
-          pip install sparknlp==3.3.4
+          pip install spark-nlp==3.3.4
           pip install sparknlp_jsl
           pip install spacy
           pip install stanza 
