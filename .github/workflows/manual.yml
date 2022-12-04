@@ -32,6 +32,9 @@ jobs:
           pip install ipython
           pip install seaborn
           pip install matplotlib
+          pip install sparknlp
+          pip install spacy
+          pip install stanza
           
       - name: execute py script 
         run: |
