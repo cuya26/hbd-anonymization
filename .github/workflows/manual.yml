@@ -32,9 +32,9 @@ jobs:
           pip install ipython
           pip install seaborn
           pip install matplotlib
+          pip install pyspark
           pip install sparknlp
           pip install sparknlp_jsl
-          pip install pyspark
           pip install spacy
           pip install stanza
           
