@@ -11,4 +11,4 @@ You can change the script behavior by editing the config.json file.
 
 # Evaluation
 Lenient Evaluation
-![img|320x271](https://github.com/cuya26/hbd-anonymization/blob/main/QUESTIONS_heat.png?raw=true)
+![img|320x271,50%](https://github.com/cuya26/hbd-anonymization/blob/main/QUESTIONS_heat.png?raw=true)
