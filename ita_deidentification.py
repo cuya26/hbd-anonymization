@@ -39,27 +39,41 @@ def merge_overlaps(df):
 
 class anonymizer:
   def __init__(self, configfile):
-    self.models = {}
+    self.supported_ents = ['telephone','zipcode','email','fiscal_code','person','organization','address','date','age']
+    self.supported_mask_modes = ['tag','tag_l','anon','anon_l']
+    self.models = {k:'' for k in self.supported_ents}
+    self.mode = 'tag'
+    self.sc = '*'
+    self.date_level = 'hide'
+
     self.load(configfile)
 
-  def load(self, configfile):
-    prev_models = set(self.models.values()) # get currently loaded models
+  def load(self, configfile): # takes json file as argument
     # parse configuration file
     with open(configfile) as cin:
       cfg = json.load(cin)
+    self.load_dict(cfg)
 
-    self.models = cfg['models']
-    self.tracker = pd.DataFrame(self.models.items(),columns=['entity_type','model'])
-    self.tracker['status'] = False # status to avoid rerunning the same ner models multiple times
-    self.mode = cfg['mask']['mode']
-    self.sc = cfg['mask']['special_character'][0] # take only first character if a string is passed
-    self.date_level = cfg['mask']['date_level']
-    self.mask_modes = ['tag','tag_l','anon','anon_l']
-
-    # results dataframe
-    self.dbs = empty_db()
+  def load_dict(self, cfg): # takes dict as argument
+    prev_models = set(self.models.values()) # get currently loaded models
+    # parse dictionary. keeps default or current values if a parameter is not passed
+    if 'models' not in cfg: cfg['models'] = {}
+    for ent in self.supported_ents:
+      if ent in cfg['models']:
+        self.models[ent] = cfg['models'][ent]
+    if 'mask' in cfg:
+      if 'mode' in cfg['mask']:
+        self.mode = cfg['mask']['mode']
+      if 'special_character' in cfg['mask']:
+        self.sc = cfg['mask']['special_character'][0] # take only first character if a string is passed
+      if 'date_level' in cfg['mask']:
+        self.date_level = cfg['mask']['date_level']
 
     current_models = set(self.models.values())
+    self.tracker = pd.DataFrame(self.models.items(),columns=['entity_type','model'])
+    self.tracker['status'] = False # status to avoid rerunning the same ner models multiple times
+    self.dbs = empty_db() # results dataframe
+
     # initialize needed models
     print(f'{"DOWNLOADING AND INITIALIZING MODELS ":-<80}')
     for model in current_models-prev_models: # using set difference to add missing models
@@ -116,6 +130,7 @@ class anonymizer:
     _ = self.FindAddress(inputText, concat=True)
     _ = self.FindDate(inputText, concat=True)
     _ = self.FindFiscalCode(inputText, concat=True)
+    _ = self.FindAge(inputText, concat=True)
 
     self.tracker['status'] = False # resets found entities for future reruns on different text
     outText = self.mask_data(inputText)
@@ -132,8 +147,8 @@ class anonymizer:
     if date_level is None: date_level=self.date_level
     if sc is None: sc=self.sc
 
-    if mode not in self.mask_modes:
-      print(f'WARNING: Unsupported masking mode selected. Choose one from {self.mask_modes}.')
+    if mode not in self.supported_mask_modes:
+      print(f'WARNING: Unsupported masking mode selected. Choose one from {self.supported_mask_modes}.')
       return inputText
     if len(dbs)==0:
       return inputText
@@ -205,10 +220,10 @@ class anonymizer:
       if concat: self.dbs = pd.concat((self.dbs, db))
       self.tracker.loc[self.tracker['entity_type']=='zipcode','status']=True
       return db
-    elif self.models['zipcode']=='':
-      return empty_db()
     elif self.models['zipcode']=='john':
       return self.Find_with_John(inputText, concat)
+    elif self.models['zipcode']=='':
+      return empty_db()
     else:
       print('WARNING: Unsupported model for zipcode anonymization')
       return empty_db()
@@ -222,10 +237,10 @@ class anonymizer:
       if concat: self.dbs = pd.concat((self.dbs, db))
       self.tracker.loc[self.tracker['entity_type']=='email','status']=True
       return db
-    elif self.models['email']=='':
-      return empty_db()
     elif self.models['email']=='john':
       return self.Find_with_John(inputText, concat)
+    elif self.models['email']=='':
+      return empty_db()
     else:
       print('WARNING: Unsupported model for e-mail anonymization')
       return empty_db()
@@ -239,10 +254,10 @@ class anonymizer:
       if concat: self.dbs = pd.concat((self.dbs, db))
       self.tracker.loc[self.tracker['entity_type']=='fiscal_code','status']=True
       return db
-    elif self.models['fiscal_code']=='':
-      return empty_db()
     elif self.models['fiscal_code']=='john':
       return self.Find_with_John(inputText, concat)
+    elif self.models['fiscal_code']=='':
+      return empty_db()
     else:
       print('WARNING: Unsupported model for fiscal code anonymization')
       return empty_db()
@@ -252,10 +267,10 @@ class anonymizer:
       return self.Find_with_Stanza(inputText, concat)
     elif self.models['person']=='spacy':
       return self.Find_with_Spacy(inputText, concat)
-    elif self.models['person']=='':
-      return empty_db()
     elif self.models['person']=='john':
       return self.Find_with_John(inputText, concat)
+    elif self.models['person']=='':
+      return empty_db()
     else:
       print('WARNING: Unsupported model for person anonymization')
       return empty_db()
@@ -265,10 +280,10 @@ class anonymizer:
       return self.Find_with_Stanza(inputText, concat)
     elif self.models['organization']=='spacy':
       return self.Find_with_Spacy(inputText, concat)
-    elif self.models['organization']=='':
-      return empty_db()
     elif self.models['organization']=='john':
       return self.Find_with_John(inputText, concat)
+    elif self.models['organization']=='':
+      return empty_db()
     else:
       print('WARNING: Unsupported model for organization anonymization')
       return empty_db()
@@ -278,12 +293,21 @@ class anonymizer:
       return self.Find_with_Stanza(inputText)
     elif self.models['address']=='spacy':
       return self.Find_with_Spacy(inputText, concat)
-    elif self.models['address']=='':
-      return empty_db()
     elif self.models['address']=='john':
       return self.Find_with_John(inputText, concat)
+    elif self.models['address']=='':
+      return empty_db()
     else:
       print('WARNING: Unsupported model for address anonymization')
+      return empty_db()
+
+  def FindAge(self, inputText, concat=False):
+    if self.models['age']=='john':
+      return self.Find_with_John(inputText, concat)
+    elif self.models['age']=='':
+      return empty_db()
+    else:
+      print('WARNING: Unsupported model for age anonymization')
       return empty_db()
 
   def FindDate(self, inputText, concat=False):
@@ -296,10 +320,10 @@ class anonymizer:
       db = pd.DataFrame(span_list, columns=['start','end','text'])
       db['entity_type'] = 'DATA' #this is important to check for additional anonym. types for dates. if you change this, should also change the if in mask_data
       self.tracker.loc[self.tracker['entity_type']=='date','status']=True
-    elif self.models['date']=='':
-      return empty_db()
     elif self.models['date']=='john':
       db = self.Find_with_John(inputText, concat)
+    elif self.models['date']=='':
+      return empty_db()
     else:
       print('WARNING: Unsupported model for date anonymization')
       return empty_db()
@@ -361,11 +385,11 @@ class anonymizer:
     ents_todo = ents[ents['status']==False]
     if len(ents_todo)>0: # check if there are still entities to find
       annotations = self.m_john.fullAnnotate(inputText)
-      span_list = [(a.begin, a.end, a.metadata['entity'], a.result) for a in annotations[0]['ner_chunk'] if a.metadata['entity'] == 'SSN']
+      span_list = [(a.begin, a.end, a.metadata['entity'], a.result) for a in annotations[0]['ner_chunk'] if a.metadata['entity'] == 'SSN'] #!!! probabilmente non ci va questo == SSN
       db = pd.DataFrame(span_list, columns=['start','end','entity_type','text'])
       db['entity_type'] = db['entity_type'].replace({'DOCTOR':'person','PATIENT':'person', 'CITY':'address','HOSPITAL':'organization' ,'E-MAIL':'email', 'AGE':'age', 'SSN':'fiscal_code', 'ZIP':'zipcode', 'TELEPHONE':'telephone'})
       db = db[db['entity_type'].isin(ents_todo['entity_type'])].copy() # keep only entities selected with this model
-      db['entity_type'] = db['entity_type'].replace({'person':'PERSONA','address':'INDIRIZZO','organization':'ORGANIZZAZIONE', 'email':'E-MAIL', 'age':'ETA', 'fiscal_code':'CF', 'zipcode':'CAP', 'telephone':'TELEFONO'})
+      db['entity_type'] = db['entity_type'].replace({'person':'PERSONA','address':'INDIRIZZO','organization':'ORGANIZZAZIONE', 'email':'E-MAIL', 'age':'ETÀ', 'fiscal_code':'CF', 'zipcode':'CAP', 'telephone':'TELEFONO'})
       if concat: self.dbs = pd.concat((self.dbs, db))
       self.tracker.loc[self.tracker['entity_type'].isin(ents_todo['entity_type']),'status']=True # set detected entities as done
       return db
@@ -398,3 +422,4 @@ if __name__ == '__main__':
   # print('output text:', output_dict['text'])
   # print('matches dataframe:', output_dict['match_dataframe'])
   # print(deid.mask_data(example, mode='tag_l',date_level='month',sc='-')) # example of just masking using different modes with already stored found entities
+  # deid.load_dict({'models':{'person':'spacy','telephone':'john'}}) # example of loading different models (non-passed parameters are not changed)
