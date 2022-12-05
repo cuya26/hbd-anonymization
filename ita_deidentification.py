@@ -3,8 +3,6 @@ De-identification code for Italian Clinical Text
 
 '''
 
-# import datefinder # to install with pip
-# install Stanza with pip
 import pandas as pd
 
 import dateutil.parser
