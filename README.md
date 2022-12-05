@@ -12,4 +12,4 @@ You can change the script behavior by editing the config.json file.
 # Evaluation
 Lenient Evaluation
 
-<img src="https://github.com/cuya26/hbd-anonymization/blob/main/QUESTIONS_heat.png" width="500" height="500">
+<img src="https://github.com/cuya26/hbd-anonymization/blob/main/QUESTIONS_heat.png" width="500" height="700">
