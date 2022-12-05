@@ -93,3 +93,6 @@ More info: https://stanfordnlp.github.io/stanza/ner_models.html
 More info: https://nlp.johnsnowlabs.com/2022/03/28/clinical_deidentification_it_2_4.html
 
 
+# Evaluation
+Lenient Evaluation
+![Heat](https://github.com/cuya26/hbd-anonymization/blob/main/QUESTIONS_heat.png?raw=true)
