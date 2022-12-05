@@ -225,13 +225,13 @@ df_corpus_scores_strict.f1 = df_corpus_scores_strict.f1.astype(float)
 sns.set(font_scale=2)
 fig, ax = plt.subplots(figsize=(10,10))
 sns.heatmap(df_corpus_scores_lenient, cmap='RdYlGn', annot=True, fmt=".2f", annot_kws={"fontsize":20}, vmin=0, vmax=1)
-fig.savefig(f'lenient_deidentification_heat_scores.png', dpi=400, transparent=True, bbox_inches='tight')
+#fig.savefig(f'lenient_deidentification_heat_scores.png', dpi=400, transparent=True, bbox_inches='tight')
 
 df_predictions
 
 df_targets
 
-# plot the heatmap of the lenient scores
+# plot the heatmap of the strict scores
 sns.set(font_scale=2)
 fig, ax = plt.subplots(figsize=(10,10))
 sns.heatmap(df_corpus_scores_strict, cmap='RdYlGn', annot=True, fmt=".2f", annot_kws={"fontsize":20}, vmin=0, vmax=1)
@@ -331,7 +331,7 @@ df_scores.precision = df_scores.precision.astype(float)
 df_scores.f1 = df_scores.f1.astype(float)
 
 sns.set(font_scale=2)
-fig, ax = plt.subplots(figsize=(10,10))
+fig, ax = plt.subplots(figsize=(5,5))
 sns.heatmap(df_scores, cmap='RdYlGn', annot=True, fmt=".2f", annot_kws={"fontsize":20}, vmin=0, vmax=1)
-# fig.savefig(f'QUESTIONS_heat.png', dpi=400, transparent=True, bbox_inches='tight')
+fig.savefig(f'QUESTIONS_heat.png', dpi=400, transparent=True, bbox_inches='tight')
 
