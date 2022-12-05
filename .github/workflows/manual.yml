@@ -23,7 +23,7 @@ jobs:
       - name: setup python
         uses: actions/setup-python@v2
         with: 
-         python-version: 3.7 # install the python version needed
+         python-version: 3.8.15 # install the python version needed
 
       - name: install python packages
         run: |
@@ -33,9 +33,8 @@ jobs:
           pip install seaborn
           pip install matplotlib
           pip install pyspark==3.1.2
-          pip install spark-nlp==3.3.4
-          // Problema con pacchetto:
-          //pip install sparknlp_jsl
+          pip install sparknlp==1.0.0
+          pip install spark-nlp-jsl==4.2.0
           pip install spacy
           pip install stanza 
           
