@@ -333,5 +333,5 @@ df_scores.f1 = df_scores.f1.astype(float)
 sns.set(font_scale=2)
 fig, ax = plt.subplots(figsize=(5,5))
 sns.heatmap(df_scores, cmap='RdYlGn', annot=True, fmt=".2f", annot_kws={"fontsize":20}, vmin=0, vmax=1)
-fig.savefig(f'QUESTIONS_heat.png', dpi=400, transparent=True, bbox_inches='tight')
+fig.savefig(f'QUESTIONS_heat.png', dpi=200, transparent=True, bbox_inches='tight')
 
