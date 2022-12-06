@@ -117,7 +117,7 @@ for filename_anon, filename_text in zip(test_filename_anon_list, test_filename_t
     with open(test_folder_path + filename_text, 'r') as file:
         text = ''.join(file.readlines())
     # perform inference and retrieve spans
-    output = deid.deIdentificationIta(text)
+    output = deid.deIdentificationIta(text, merge=True)
     df_predictions = output['match_dataframe']
     # df_predictions.end = df_predictions.end + 1
     # create a dataframe with start, end, entity_type, text as columns
@@ -153,7 +153,7 @@ for filename_anon, filename_text in zip(test_filename_anon_list, test_filename_t
             'INDIRIZZO',
             'DATA',
             'CF',
-            'age'
+            'ETÀ'
         ],
         [
             'TEL',
@@ -242,7 +242,7 @@ sns.heatmap(df_corpus_scores_strict, cmap='RdYlGn', annot=True, fmt=".2f", annot
 with open(test_folder_path + test_filename_text_list[0], 'r') as file:
     text = ''.join(file.readlines())
 
-output = deid.deIdentificationIta(text)
+output = deid.deIdentificationIta(text, merge=True)
 
 df_predictions = output['match_dataframe']
 
@@ -269,7 +269,7 @@ df_predictions['entity_type'] = df_predictions['entity_type'].replace(
         'INDIRIZZO',
         'DATA',
         'CF',
-        'age'
+        'ETÀ'
     ],
     [
         'TEL',
