@@ -418,7 +418,8 @@ if __name__ == '__main__':
   7-1-2000
   '''
   deid = anonymizer('./config.json')
-  output_dict = deid.deIdentificationIta(example)
+  output = deid.deIdentificationIta(example)
+  print(output)
   # print('output text:', output_dict['text'])
   # print('matches dataframe:', output_dict['match_dataframe'])
   # print(deid.mask_data(example, mode='tag_l',date_level='month',sc='-')) # example of just masking using different modes with already stored found entities
