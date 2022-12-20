@@ -45,6 +45,17 @@ class anonymizer:
     self.mode = 'tag'
     self.sc = '*'
     self.date_level = 'hide'
+    self.find_func_dict = {
+      "person": self.FindPerson,
+      "organization": self.FindOrganization,
+      "telephone": self.FindTelephone,
+      "date": self.FindDate,
+      "age": self.FindAge,
+      "email": self.FindEmail,
+      "zipcode": self.FindZipCode,
+      "address": self.FindAddress,
+      'fiscal_code': self.FindFiscalCode
+    }
 
     self.load(configfile)
 
@@ -55,7 +66,9 @@ class anonymizer:
     self.load_dict(cfg)
 
   def load_dict(self, cfg): # takes dict as argument
+    print('new config:', cfg)
     prev_models = set(self.models.values()) # get currently loaded models
+    print('prev_models:', prev_models)
     # parse dictionary. keeps default or current values if a parameter is not passed
     if 'models' not in cfg: cfg['models'] = {}
     for ent in self.supported_ents:
@@ -68,7 +81,7 @@ class anonymizer:
         self.sc = cfg['mask']['special_character'][0] # take only first character if a string is passed
       if 'date_level' in cfg['mask']:
         self.date_level = cfg['mask']['date_level']
-
+    print(self.models)
     current_models = set(self.models.values())
     self.tracker = pd.DataFrame(self.models.items(),columns=['entity_type','model'])
     self.tracker['status'] = False # status to avoid rerunning the same ner models multiple times
@@ -117,21 +130,30 @@ class anonymizer:
     return
 
   # main function
-  def deIdentificationIta(self, inputText, merge=False):
+  def deIdentificationIta(
+      self,
+      inputText,
+      merge=False
+    ):
     #print(f'{"ANONYMIZING GIVEN TEXT ":-<80}')
     self.dbs = empty_db() # resets previously found entities
+    for entity_type in self.supported_ents:
+      self.find_func_dict[entity_type](inputText, concat=True)
 
+    self.Find_with_John(inputText, concat=True)
+    self.Find_with_Spacy(inputText, concat=True)
+    self.Find_with_Stanza(inputText, concat=True)
     # decide if the returned dataframes can be useful. careful if using same ner for multiple ents, some dbs have all the ents and others are empty to avoid rerunning
-    _ = self.FindTelephone(inputText, concat=True)
-    _ = self.FindZipCode(inputText, concat=True)
-    _ = self.FindEmail(inputText, concat=True)
-    _ = self.FindPerson(inputText, concat=True)
-    _ = self.FindOrganization(inputText, concat=True)
-    _ = self.FindAddress(inputText, concat=True)
-    _ = self.FindDate(inputText, concat=True)
-    _ = self.FindFiscalCode(inputText, concat=True)
-    _ = self.FindAge(inputText, concat=True)
-
+    # _ = self.FindTelephone(inputText, concat=True)
+    # _ = self.FindZipCode(inputText, concat=True)
+    # _ = self.FindEmail(inputText, concat=True)
+    # _ = self.FindPerson(inputText, concat=True)
+    # _ = self.FindOrganization(inputText, concat=True)
+    # _ = self.FindAddress(inputText, concat=True)
+    # _ = self.FindDate(inputText, concat=True)
+    # _ = self.FindFiscalCode(inputText, concat=True)
+    # _ = self.FindAge(inputText, concat=True)
+    print(self.dbs)
     self.tracker['status'] = False # resets found entities for future reruns on different text
     outText = self.mask_data(inputText)
     if merge: # merges found spans before returning, aligning dbs with anonymized text
@@ -196,137 +218,137 @@ class anonymizer:
   # concat is false by default meaning results won't be appended to object dbs, letting you call individual functions when needed
   def FindTelephone(self, inputText, concat=False):
     if self.models['telephone']=='regex':
-      matches = re.finditer('(?:(\(?(?:\+|00)\(?\d{2,3}\)?)[\s\-\.\\\\]?)?((?:3\d{2}[\s\-\.\/\\\\]?\d{7})|(?:0\d[\s\-\.\/\\\\]?\d{8})|(?:0\d{2}[\s\-\.\/\\\\]?\d{7})|(?:0\d{3}[\s\-\.\/\\\\]?\d{6}))', inputText)
-      span_list = [(match.span()[0], match.span()[1], match.group()) for match in matches]
-      db = pd.DataFrame(span_list, columns=['start','end','text'])
+      matches = re.finditer('(?:(\(?(?:\+|00)\(?\d{2,3}\)?)[\s\-\.\\\\]?)?((?:3\d{2}[\s\-\.\/\\\\]?\d{7})|(?:0\d[\s\-\.\/\\\\]?\d{8})|(?:0\d{2}[\s\-\.\/\\\\]?\d{5,7})|(?:0\d{3}[\s\-\.\/\\\\]?\d{5,6}))', inputText)
+      span_list = [(match.span()[0], match.span()[1], match.group(), 'regex') for match in matches]
+      db = pd.DataFrame(span_list, columns=['start','end','text', 'model'])
       db['entity_type'] = 'TELEFONO'
       if concat: self.dbs = pd.concat((self.dbs, db))
       self.tracker.loc[self.tracker['entity_type']=='telephone','status']=True
       return db
-    elif self.models['telephone']=='john':
-      return self.Find_with_John(inputText, concat)
+    # elif self.models['telephone']=='john':
+    #   return self.Find_with_John(inputText, concat)
     elif self.models['telephone']=='':
       return empty_db()
-    else:
-      print('WARNING: Unsupported model for telephone anonymization')
-      return empty_db()
+    # else:
+    #   print('WARNING: Unsupported model for telephone anonymization')
+    #   return empty_db()
 
   def FindZipCode(self, inputText, concat=False):
     if self.models['zipcode']=='regex':
       matches = re.finditer('\D([0-9]{5})\D', inputText)
-      span_list = [(match.span(1)[0], match.span(1)[1], match.group(1)) for match in matches] # (1) because it's first capturing group to avoid surrounding non-digits captured
-      db = pd.DataFrame(span_list, columns=['start','end','text'])
+      span_list = [(match.span(1)[0], match.span(1)[1], match.group(1), 'regex') for match in matches] # (1) because it's first capturing group to avoid surrounding non-digits captured
+      db = pd.DataFrame(span_list, columns=['start','end','text', 'model'])
       db['entity_type'] = 'CAP'
       if concat: self.dbs = pd.concat((self.dbs, db))
       self.tracker.loc[self.tracker['entity_type']=='zipcode','status']=True
       return db
-    elif self.models['zipcode']=='john':
-      return self.Find_with_John(inputText, concat)
+    # elif self.models['zipcode']=='john':
+    #   return self.Find_with_John(inputText, concat)
     elif self.models['zipcode']=='':
       return empty_db()
-    else:
-      print('WARNING: Unsupported model for zipcode anonymization')
-      return empty_db()
+    # else:
+    #   print('WARNING: Unsupported model for zipcode anonymization')
+    #   return empty_db()
 
   def FindEmail(self, inputText, concat=False):
     if self.models['email']=='regex':
       matches = re.finditer('[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}', inputText)
-      span_list = [(match.span()[0], match.span()[1], match.group()) for match in matches]
-      db = pd.DataFrame(span_list, columns=['start','end','text'])
+      span_list = [(match.span()[0], match.span()[1], match.group(), 'regex') for match in matches]
+      db = pd.DataFrame(span_list, columns=['start','end','text', 'model'])
       db['entity_type'] = 'E-MAIL'
       if concat: self.dbs = pd.concat((self.dbs, db))
       self.tracker.loc[self.tracker['entity_type']=='email','status']=True
       return db
-    elif self.models['email']=='john':
-      return self.Find_with_John(inputText, concat)
+    # elif self.models['email']=='john':
+    #   return self.Find_with_John(inputText, concat)
     elif self.models['email']=='':
       return empty_db()
-    else:
-      print('WARNING: Unsupported model for e-mail anonymization')
-      return empty_db()
+    # else:
+    #   print('WARNING: Unsupported model for e-mail anonymization')
+    #   return empty_db()
 
   def FindFiscalCode(self, inputText, concat=False):
     if self.models['fiscal_code']=='regex':
       matches = re.finditer('[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]', inputText)
-      span_list = [(match.span()[0], match.span()[1], match.group()) for match in matches]
-      db = pd.DataFrame(span_list, columns=['start','end','text'])
+      span_list = [(match.span()[0], match.span()[1], match.group(), 'regex') for match in matches]
+      db = pd.DataFrame(span_list, columns=['start','end','text', 'model'])
       db['entity_type'] = 'CF'
       if concat: self.dbs = pd.concat((self.dbs, db))
       self.tracker.loc[self.tracker['entity_type']=='fiscal_code','status']=True
       return db
-    elif self.models['fiscal_code']=='john':
-      return self.Find_with_John(inputText, concat)
+    # elif self.models['fiscal_code']=='john':
+    #   return self.Find_with_John(inputText, concat)
     elif self.models['fiscal_code']=='':
       return empty_db()
-    else:
-      print('WARNING: Unsupported model for fiscal code anonymization')
-      return empty_db()
+    # else:
+    #   print('WARNING: Unsupported model for fiscal code anonymization')
+    #   return empty_db()
 
   def FindPerson(self, inputText, concat=False):
-    if self.models['person']=='stanza':
-      return self.Find_with_Stanza(inputText, concat)
-    elif self.models['person']=='spacy':
-      return self.Find_with_Spacy(inputText, concat)
-    elif self.models['person']=='john':
-      return self.Find_with_John(inputText, concat)
-    elif self.models['person']=='':
+    # if self.models['person']=='stanza':
+    #   return self.Find_with_Stanza(inputText, concat)
+    # elif self.models['person']=='spacy':
+    #   return self.Find_with_Spacy(inputText, concat)
+    # elif self.models['person']=='john':
+    #   return self.Find_with_John(inputText, concat)
+    if self.models['person']=='':
       return empty_db()
-    else:
-      print('WARNING: Unsupported model for person anonymization')
-      return empty_db()
+    # else:
+    #   print('WARNING: Unsupported model for person anonymization')
+    #   return empty_db()
 
   def FindOrganization(self, inputText, concat=False):
-    if self.models['organization']=='stanza':
-      return self.Find_with_Stanza(inputText, concat)
-    elif self.models['organization']=='spacy':
-      return self.Find_with_Spacy(inputText, concat)
-    elif self.models['organization']=='john':
-      return self.Find_with_John(inputText, concat)
-    elif self.models['organization']=='':
+    # if self.models['organization']=='stanza':
+    #   return self.Find_with_Stanza(inputText, concat)
+    # elif self.models['organization']=='spacy':
+    #   return self.Find_with_Spacy(inputText, concat)
+    # elif self.models['organization']=='john':
+    #   return self.Find_with_John(inputText, concat)
+    if self.models['organization']=='':
       return empty_db()
     else:
       print('WARNING: Unsupported model for organization anonymization')
       return empty_db()
 
   def FindAddress(self, inputText, concat=False):
-    if self.models['address']=='stanza':
-      return self.Find_with_Stanza(inputText)
-    elif self.models['address']=='spacy':
-      return self.Find_with_Spacy(inputText, concat)
-    elif self.models['address']=='john':
-      return self.Find_with_John(inputText, concat)
-    elif self.models['address']=='':
+    # if self.models['address']=='stanza':
+    #   return self.Find_with_Stanza(inputText)
+    # elif self.models['address']=='spacy':
+    #   return self.Find_with_Spacy(inputText, concat)
+    # elif self.models['address']=='john':
+    #   return self.Find_with_John(inputText, concat)
+    if self.models['address']=='':
       return empty_db()
-    else:
-      print('WARNING: Unsupported model for address anonymization')
-      return empty_db()
+    # else:
+    #   print('WARNING: Unsupported model for address anonymization')
+    #   return empty_db()
 
   def FindAge(self, inputText, concat=False):
-    if self.models['age']=='john':
-      return self.Find_with_John(inputText, concat)
-    elif self.models['age']=='':
+    # if self.models['age']=='john':
+    #   return self.Find_with_John(inputText, concat)
+    if self.models['age']=='':
       return empty_db()
-    else:
-      print('WARNING: Unsupported model for age anonymization')
-      return empty_db()
+    # else:
+    #   print('WARNING: Unsupported model for age anonymization')
+    #   return empty_db()
 
   def FindDate(self, inputText, concat=False):
     if self.date_level not in ['hide','year','month']:
       print('WARNING: Unsupported type of date anonymization. It should be hide, year or month.')
       return empty_db()
     if self.models['date']=='regex':
-      matches = re.finditer('(?:\d{1,4}[-\\ \/ ])?(\d{1,2}|(?:gen(?:naio)?|feb(?:braio)?|mar(?:zo)?|apr(?:ile)?|mag(?:gio)|giu(?:gno)?|lug(?:lio)?|ago(?:sto)?|set(?:tembre)?|ott(?:obre)?|nov(?:embre)?|dic(?:embre)?))[-\\ \/  ]\d{1,4}',inputText.lower())
-      span_list = [(match.span()[0], match.span()[1], match.group()) for match in matches]
-      db = pd.DataFrame(span_list, columns=['start','end','text'])
+      matches = re.finditer('(?:\d{1,4}[-\\ \/  \.])?(\d{1,2}|(?:gen(?:naio)?|feb(?:braio)?|mar(?:zo)?|apr(?:ile)?|mag(?:gio)|giu(?:gno)?|lug(?:lio)?|ago(?:sto)?|set(?:tembre)?|ott(?:obre)?|nov(?:embre)?|dic(?:embre)?))[-\\ \/  \.]\d{1,4}',inputText.lower())
+      span_list = [(match.span()[0], match.span()[1], match.group(), 'regex') for match in matches]
+      db = pd.DataFrame(span_list, columns=['start','end','text', 'model'])
       db['entity_type'] = 'DATA' #this is important to check for additional anonym. types for dates. if you change this, should also change the if in mask_data
       self.tracker.loc[self.tracker['entity_type']=='date','status']=True
-    elif self.models['date']=='john':
-      db = self.Find_with_John(inputText, concat)
+    # elif self.models['date']=='john':
+    #   db = self.Find_with_John(inputText, concat)
     elif self.models['date']=='':
       return empty_db()
-    else:
-      print('WARNING: Unsupported model for date anonymization')
-      return empty_db()
+    # else:
+    #   print('WARNING: Unsupported model for date anonymization')
+    #   return empty_db()
 
     m = db.apply(self.IsValidDate, axis=1)
     db = db[m]
@@ -353,8 +375,8 @@ class anonymizer:
     ents_todo = ents[ents['status']==False]
     if len(ents_todo)>0: # check if there are still entities to find
       doc = self.m_stanza(inputText)
-      span_list = [(e.start_char, e.end_char, e.type, e.text) for e in doc.ents]
-      db = pd.DataFrame(span_list, columns=['start','end','entity_type','text'])
+      span_list = [(e.start_char, e.end_char, e.type, e.text, 'stanza') for e in doc.ents]
+      db = pd.DataFrame(span_list, columns=['start','end','entity_type','text', 'model'])
       db['entity_type'] = db['entity_type'].replace({'PER':'person','LOC':'address','ORG':'organization'})
       db = db[db['entity_type'].isin(ents_todo['entity_type'])].copy() # keep only entities selected with this model
       db['entity_type'] = db['entity_type'].replace({'person':'PERSONA','address':'INDIRIZZO','organization':'ORGANIZZAZIONE'})
@@ -369,8 +391,8 @@ class anonymizer:
     ents_todo = ents[ents['status']==False]
     if len(ents_todo)>0: # check if there are still entities to find
       doc = self.m_spacy(inputText)
-      span_list = [(e.start_char, e.end_char, e.label_, e.text) for e in doc.ents]
-      db = pd.DataFrame(span_list, columns=['start','end','entity_type','text'])
+      span_list = [(e.start_char, e.end_char, e.label_, e.text, 'spacy') for e in doc.ents]
+      db = pd.DataFrame(span_list, columns=['start','end','entity_type','text', 'model'])
       db['entity_type'] = db['entity_type'].replace({'PER':'person','LOC':'address','ORG':'organization'})
       db = db[db['entity_type'].isin(ents_todo['entity_type'])].copy() # keep only entities selected with this model
       db['entity_type'] = db['entity_type'].replace({'person':'PERSONA','address':'INDIRIZZO','organization':'ORGANIZZAZIONE'})
@@ -385,8 +407,8 @@ class anonymizer:
     ents_todo = ents[ents['status']==False]
     if len(ents_todo)>0: # check if there are still entities to find
       annotations = self.m_john.fullAnnotate(inputText)
-      span_list = [(a.begin, a.end, a.metadata['entity'], a.result) for a in annotations[0]['ner_chunk'] if a.metadata['entity'] == 'SSN'] #!!! probabilmente non ci va questo == SSN
-      db = pd.DataFrame(span_list, columns=['start','end','entity_type','text'])
+      span_list = [(a.begin, a.end + 1 , a.metadata['entity'], a.result, 'john') for a in annotations[0]['ner_chunk']] #!!! probabilmente non ci va questo == SSN
+      db = pd.DataFrame(span_list, columns=['start','end','entity_type','text', 'model'])
       db['entity_type'] = db['entity_type'].replace({'DOCTOR':'person','PATIENT':'person', 'CITY':'address','HOSPITAL':'organization' ,'E-MAIL':'email', 'AGE':'age', 'SSN':'fiscal_code', 'ZIP':'zipcode', 'TELEPHONE':'telephone'})
       db = db[db['entity_type'].isin(ents_todo['entity_type'])].copy() # keep only entities selected with this model
       db['entity_type'] = db['entity_type'].replace({'person':'PERSONA','address':'INDIRIZZO','organization':'ORGANIZZAZIONE', 'email':'E-MAIL', 'age':'ETÀ', 'fiscal_code':'CF', 'zipcode':'CAP', 'telephone':'TELEFONO'})
