@@ -1,0 +1,196 @@
+LETTERA DI DIMISSIONE 
+ 
+Sig. <NAME>#######   (nato il <DATE>##)
+PSD010  
+ 
+<LOC>##############, <LOC>#,  <DATE>#### 
+Alla cortese attenzione 
+del Medico Curante 
+ 
+ 
+Alla cortese attenzione  
+Etichetta paziente 
+Ai Colleghi della  
+Divisione di Cardiologia Riabilitativa 
+<LOC>######### 
+ 
+Viene dimesso in data odierna il Sig. <NAME>#######, di <AGE>##, ricoverato presso la nostra Unità Operativa 
+in data <DATE>##.  
+  
+DIAGNOSI DI DIMISSIONE 
+CORONAROPATIA CRITICA DI IVA E STENOSI VALVOLARE AORTICA SEVERA SOTTOPOSTO 
+AD INTERVENTO DI SOSTITUZIONE VALVOLARE AORTICA CON BIOPROTESI INTUITY N° 23 + 
+RIVASCOLARIZZAZIONE MIOCARDICA MEDIANTE BPAC X 1 (LIMA-IVA) 
+ 
+ANAMNESI CARDIOLOGICA 
+ 
+FDR CV: ipertensione arteriosa, pregresso fumo 
+ 
+MDR: coronaropatia di IVA + stenosi aortica severa 
+ 
+Storia cardiologica: Non precedenti cardiologici noti 
+<DATE>## accesso in PS Città Studi con diagnosi di IMA NSTEMI in paziente con malattia coronarica 
+trivasale e stenosi aortica severa in corso di puntata ipertensiva (200/150), all'ECG RS 131 bpm. CNG 
+(<DATE>#) tronco comune pervio. IVA stenosi moderata prossimale, serrata tratto medio, pervità distale e 
+1D. Stenosi critica ramo intermedio. Cx occlusione ostiale con presenza di circolo collaterale omo ed 
+eterocoronarico. CDx dominante stenosi critica tratto prossimale, serrata tratto medio, pervietà distale. 
+1posterolaterale occluso con circolo collaterale. Al termine della CNG eseguita PTCA CDx prossimale-
+medio con impianto di 2 stent medicati. ECO TT (<DATE>#) Asn dilatato (d. PA 48mm) Valvola aortica 
+calcifica e severamente stenotica (Gmed 58mmHg, Gmax 85mmHg). Fibrosi lembi mitralici, lieve 
+insufficienza. VSn di dimensioni normali. FE 55%. Alterato rilasciamento diastolico. 
+ Valutazione CCH(dr. <NAME>) pone indicazione per intervento di sostituzione valvolare aortica + BPAC. 
+ 
+ANAMNESI GENERALE 
+PNX spontaneo a <AGE>##. Tampone sars-cov-2 <DATE> negativo. 
+IPB in attesa TURP, portatore di CV a permanenza. 
+Eseguita 1 dose vaccino AZ (<DATE>####), non riferisce patologia COVID in anamnesi 
+ 
+ACCERTAMENTI PRE OPERATORI 
+Tampone per Sars-Cov2 (<DATE>##): negativo.  
+ 
+Sierologia per Sars-Cov2 (<DATE>##): positiva per IgG compatibile con la storia anmnestica vaccinale.  
+ 
+ 
+Tampone nasale screening MRSA/MSSA (<DATE>##): positivo per MSSA, trattato mediante mupirocina 
+topica. 
+ 
+Tampone rettale screening (<DATE>##): negativo. 
+ 
+Ecocardiogramma TT (<DATE>##): Ventricolo sinistro di normali dimensioni cavitarie e spessori parietali 
+conservati, con funzione sistolica globale lievemente ridotta (FE 50%). Pattern di funzione diastolica del 
+ventricolo sinistro di grado I. Cinetica segmentaria: ipocinesia del segmento medio-basale della parete 
+postero-laterale ed inferiore. Valvola aortica tricuspide, marcatamente calcifica, con stenosi di grado 
+severo (PG med 56 mmHg, area calcolata 1.2 cm2, AVAi 0.67 cm2/m2) e insufficienza di grado lieve. 
+Atrio sinistro di normali dimensioni. Atrio destro di normali dimensioni. Valvola mitrale con lembi ispessiti, 
+con accettabile dinamica di apertura, continente. Radice aortica a livello dei seni di 36 mm; tratto tubulare 
+dell'aorta ascendente di 40 mm a distanza di circa 6 cm dal piano valvolare aortico. IT in tracce. 
+Ventricolo destro di normali dimensioni con normale accorciamento longitudinale. PAPs stimata di 17 
+mmHg. Vena cava inferiore non dilatata con normali escursioni respiratorie. Assenza di versamento 
+pericardico (vedi allegato). 
+ 
+Doppler TSA + Accessi <DATE>##: Quesito diagnostico: preoperatorio DESTRA pervietà delle 
+carotidi comune ed esterna, con diffusa ateromasia; placca fibrocalcifica regolare alla biforcazione, 
+estesa al primo tratto della carotide interna, ove determina stenosi del 50% circa, emodinamicamente 
+non significativa. SINISTRA pervietà delle carotidi comune ed esterna, con diffusa ateromasia calcifica; 
+placca fibrocalcifica irregolare alla biforcazione, estesa al primo tratto della carotide interna, ove 
+determina stenosi quantificabile intorno al 70% circa, con velocimetrie che depongono per stenosi 
+maggiore (PSV 280 cm/sec, EDV 65 cm/sec). Vertebrali bilateralmente pervie ed ortograde in V2. 
+Succlavie bilateralmente pervie con segnale diretto.  ECOCOLORDOPPLER ACCESSI Regolare 
+pervietà delle femorali comune, superficiale e profonda, con diffusa angiosclerosi calcifica ma in assenza 
+di stenosi emodinamiche bilateralmente. A DESTRA segnali Doppler diretti e bifasici in femorale 
+comune, superficiale e profonda; diametro arteria femorale comune 7.2 mm.  A SINISTRA segnali 
+Doppler diretti e monofasici in femorale comune, superficiale e profonda come da stenosi a monte. 
+Diametro dell’arteria femorale comune 7.5 mm circa. Vena femorale comune bilateralmente pervia, 
+comprimibile, flussi fasici ed attivabili. Non segni di TVP. Si consiglia: Esecuzione di Angio-TC TSA e 
+distretto intracranico e TC encefalo (vedi allegato). 
+ 
+AngioTC dei TSA + circolo intracranico + encefalo <DATE>##: Fenomeni regressivi cerebrali, con 
+allargamento degli spazi liquorali periencefalici. Puntiformi ipodensità, di significato ischemico lacunare, 
+cronico, del fascio cortico spinale e in sede capsulo-talamica destra. Diffusi segni ischemico cronici della 
+sostanza bianca periventricolare. Lieve asimmetria dimensionale dei ventricoli laterali. Non raccolte 
+endocraniche. Non impregnazioni focali patologiche. All'origine di tronco brachiocefalico destro, si 
+osserva placca calcifica nell'ambito di patologia ateromasica, determinante una riduzione del diametro 
+di almeno 30 - 40%. Conservata l'arteria carotide comune destra. Nella biforcazione carotidea destra 
+placca con calcificazione semilunare, postero-laterale, responsabile di una riduzione di calibro di circa 
+30 - 40%. Ulteriore placca calcifica, dell'arteria carotide interna sovrabulbare responsabile di stenosi 
+critica, almeno 70-80%, collocata prevalentemente, con morfologia semilunare, lungo il versante interno. 
+Conservato il percorso intrapetroso della ACI. Modesta stenosi del percorso intercavernoso. Inoltre 
+minima stenosi dell'emergenza di arteria carotide comune sinistra non significativa dall'arco. Alla 
+biforcazione carotidea sinistra, si osservano placca con densità calcifica sia sul versante interno, sia sul 
+versante esterno, determinante una stenosi globale di circa 40%. Ulteriore stenosi lineare, di arteria 
+carotide interna, con placca mista in parte calcifica, in parte molle, post-bulbare con stenosi di circa 50-
+60%. Conservato il tratto intrapetroso, intercavernoso. In ambito cerebrale non segni di malformazioni 
+vascolari né impregnazioni focali patologiche (vedi allegato)(cid:1)in data <DATE>## eseguita consulenza 
+del chirurgo vascolare: si consiglia di eseguire visita di chirurgia vascolare tra 2 mesi circa al 
+termine del periodo riabilitativo proseguendo la terapia in atto.  
+ 
+ 
+INTERVENTO CARDIOCHIRURGICO 
+In data <DATE>##, il pz è stato sottoposto ad intervento di sostituzione valvolare aortica con 
+bioprotesi Intuity n° 23 + rivascolarizzazione miocardica mediante BPAC x 1 (LIMA-IVA), Dr. 
+<NAME> (Vedi verbale Operatorio allegato). 
+ 
+DECORSO CLINICO POST-OPERATORIO 
+ 
+TERAPIA INTENSIVA  
+-  Ripresa DAPT in relazione alla recente PTCA/DES su CDx 
+-  Iniziale supporto inotropo con noradrenalina 
+ 
+REPARTO (rientra il <DATE>##)  
+-  Rimozione tardiva dei drenaggi per sierosità 
+-  Iniziale aumentato fabbisogno diuretico 
+-  In data <DATE>## emotrasfuso con n° 1 unità di EC 
+-  Restante decorso  regolare 
+ 
+ECG alla dimissione: ritmo sinusale regolare a 71 bpm. 
+ 
+Rx torace <DATE>##: Rimosso il CVC. Incrementata la falda di versamento pleurico bibasale. Ulteriori 
+rilievi sostanzialmente immodificati rispetto a precedente del <DATE>##(cid:1)si mantiene il diuretico ev a boli. 
+ 
+Ecocardiogramma TT <DATE>##: Scarsa finestra acustica. 
+Esiti di sostituzione valvolare aortica con bioprotesi Edwards Intuity N° 23, normoposta, con gradiente 
+medio del flusso anterogrado di 3 mmHg. Non evidenza di flussi patologici. Esiti di BPAC x 1 (Lima-Iva). 
+Ventricolo sinistro di dimensioni cavitarie ai limiti superiori della norma e spessori parietali conservati, 
+con funzione sistolica globale lievemente ridotta (FE 49%). Pattern di funzione diastolica del ventricolo 
+sinistro di grado I. Cinetica segmentaria: ipocinesia del segmento medio-basale della parete postero-
+laterale ed inferiore. Atrio sinistro di normali dimensioni. Atrio destro di normali dimensioni. Valvola 
+mitrale con lembi ispessiti, con accettabile dinamica di apertura, continente. Radice aortica a livello dei 
+seni di 36 mm; tratto tubulare dell'aorta ascendente di difficile valutazione per scarsa ecogenicità. IT in 
+tracce. Ventricolo destro di normali dimensioni con ridotto accorciamento longitudinale. PAPs stimata di 
+27 mmHg. Vena cava inferiore non dilatata con normali escursioni respiratorie. Assenza di versamento 
+pericardico (vedi allegato). 
+ 
+Tampone per Sars-Cov2 (<DATE>#### - <DATE>####): negativo.  
+ 
+Al momento della dimissione, paziente in buone condizioni generali, sterno saldo, ferita in ordine, attività 
+cardiaca ritmica, normofrequente; MV diffusamente ridotto, assente alle basi. 
+ 
+TERAPIA FARMACOLOGICA ALLA DIMISSIONE 
+-  PANTOPRAZOLO 20 mg 1 cp/die ore 8 
+-  ACIDO ACETILSALICILICO 100 mg 1 cp/die dopo pranzo 
+-  TICAGRELOR 90 mg 1 cp alle ore 8 e 1 cp alle ore 20 
+-  BISOPROLOLO 1.25 mg 1 cp alle ore 8 e 1 cp alle ore 20 
+-  RAMIPRIL 2.5 mg 1 cp alle ore 8 e 1 cp alle ore 20 
+-  FUROSEMIDE 20 mg 1 fl ev alle ore 8 + 1 fl ev alle ore 14 + 1 fl ev alle ore 20 
+-  CANREONATO DI POTASSIO 25 mg 1 cp alle ore 16 
+-  ATORVASTATINA 100 mg ½ cp alle ore 22 
+-  SPIOLTO 1 inalazione al mattino e 1 inalazione la sera 
+-  TAMSULOSINA 0.4 mg 1 cp alle ore 20 
+ 
+PROFILASSI DELL’ENDOCARDITE BATTERICA 
+ 
+In caso di procedure mediche e odontoiatriche invasive o semi-invasive si raccomanda esecuzione di 
+profilassi antibiotica della endocardite batterica secondo lo schema (tipo di Antibiotico, dosi e modalità 
+di assunzione) riportato nel modulo allegato. Nel modulo sono riportate in dettaglio tutte le procedure 
+per le quali è indicata l’esecuzione della profilassi antibiotica.  
+ 
+È possibile che alcune delle prescrizioni consigliate non siano a carico del SSN a causa di vincoli di prescrivibilità posti 
+dall’Agenzia Italiana del Farmaco (AIFA) e pertanto siano a carico dell’assistito (Art. 3 Legge <DATE>#### n. 94, 
+determinazione <DATE>## suppl. 162 GU 259).  
+ 
+PROGRAMMA DI CONTINUITÀ DELLE CURE 
+Al termine del periodo riabilitativo si consiglia di contattare la Chirurgia Vascolare I (Prof. <NAME>, 
+<TEL>######) di questo Centro al fine di programmare l’intervento di eventuale TEA/PTA. 
+ 
+Successivamente al completamento del programma di riabilitazione, a distanza di circa 2 mesi dalla data 
+dell’intervento, il Paziente è atteso per un controllo cardiochirurgico portando in visione Radiografia del 
+torace, Ecocardiogramma color-Doppler, ECG di controllo: la preghiamo di contattare direttamente la 
+nostra Segreteria per fissare la data dell’appuntamento.  
+ 
+ 
+Rimaniamo a disposizione per ogni eventuale ulteriore informazione o chiarimento.  
+ 
+Cordiali Saluti 
+ 
+   
+ 
+ 
+Le Regole di Sistema della Regione <LOC>#### prevedono che gli utenti siano informati sui costi che il Servizio 
+Sanitario Regionale sostiene per le attività di ricovero di cui hanno usufruito.  
+Il valore di € 24457 rappresenta il rimborso corrisposto mediamente agli ospedali della <LOC>#### per il costo 
+sostenuto per il presente ricovero.   
+ 
+ 
+NEL CASO DI ULTERIORI ACCESSI AL NOSTRO ISTITUTO PER VISITE DI CONTROLLO O PER PRESTAZIONI 
+AMBULATORIALI LE RICORDIAMO DI PORTARE CON SE QUESTA RELAZIONE DI DIMISSIONE, UNITAMENTE A TUTTA 
+LA DOCUMENTAZIONE DI ORDINE CLINICO CHE LE È STATA RILASCIATA AL MOMENTO DELLA DIMISSIONE 
