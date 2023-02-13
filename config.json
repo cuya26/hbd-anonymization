@@ -8,7 +8,7 @@
         "organization": "stanza",
         "address": "stanza",
         "date": "regex",
-        "age": "john"
+        "age": "regex"
     },
     "mask": {
         "mode": "anon_l",
