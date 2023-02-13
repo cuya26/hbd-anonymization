@@ -307,7 +307,8 @@ class anonymizer:
     if self.models['organization']=='':
       return empty_db()
     else:
-      print('WARNING: Unsupported model for organization anonymization')
+      if self.models['organization']!='stanza':
+        print('WARNING: Unsupported model for organization anonymization')
       return empty_db()
 
   def FindAddress(self, inputText, concat=False):
@@ -325,12 +326,24 @@ class anonymizer:
 
   def FindAge(self, inputText, concat=False):
     # if self.models['age']=='john':
-    #   return self.Find_with_John(inputText, concat)
+    #    return self.Find_with_John(inputText, concat)
     if self.models['age']=='':
       return empty_db()
-    # else:
-    #   print('WARNING: Unsupported model for age anonymization')
-    #   return empty_db()
+    if self.models['age'] == 'regex':
+      matches = re.finditer(
+        r'(?:(?:(\d+)\s*anni)|(?:anni\s*(\d+)))',
+        inputText.lower())
+      span_list = [(match.span()[0], match.span()[1], match.group(), 'regex') for match in matches]
+      db = pd.DataFrame(span_list, columns=['start', 'end', 'text', 'model'])
+      db[
+        'entity_type'] = 'AGE'
+      self.tracker.loc[self.tracker['entity_type'] == 'age', 'status'] = True
+      if concat: self.dbs = pd.concat((self.dbs, db))
+      return db
+    else:
+      if self.models['age'] != 'john':
+       print('WARNING: Unsupported model for age anonymization')
+      return empty_db()
 
   def FindDate(self, inputText, concat=False):
     if self.date_level not in ['hide','year','month']:
@@ -367,34 +380,6 @@ class anonymizer:
       dateutil.parser.parse(dateText, dayfirst=True)
     except dateutil.parser.ParserError: #as e:
       return False
-    return True
-      db = empty_db()
-    elif self.models['date']=='john':
-      db = self.Find_with_John(inputText, concat)
-    else:
-      print('WARNING: Unsupported model for date anonymization')
-      return empty_db()
-
-    m = db.apply(self.IsValidDate, axis=1)
-    db = db[m]
-    if concat: self.dbs = pd.concat((self.dbs, db))
-
-    return db
-
-  def IsValidDate(self, df_row):
-    dateText = df_row['text']
-    tuple_months = ('gennaio', '01'), ('gen', '01'), ('febbraio', '02'), ('feb', '02'), ('marzo', '03'), ('mar', '03'), (
-    'aprile', '04'), ('apr', '04'), ('maggio', '05'), ('mag', '05'), ('giugno', '06'), ('giu', '06'), (
-                  'luglio', '07'), ('lug', '07'), ('agosto', '08'), ('ago', '08'), ('settembre', '09'), ('set', '09'), (
-                  'ottobre', '10'), ('ott', '10'), ('novembre', '11'), ('nov', '11'), ('dicembre', '12'), ('dic', '12')
-    if (not (re.search('[a-zA-Z]', dateText)) == None):
-      dateText = reduce(lambda a, kv: a.replace(*kv), tuple_months,
-                            dateText)  # replaces textual month with numeric equivalent
-    try:
-      dateutil.parser.parse(dateText, dayfirst=True)
-    except dateutil.parser.ParserError as e:
-      return False
-
     return True
 
   # ner functions for multiple entities, to avoid rerunning
