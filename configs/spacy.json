@@ -1,0 +1,13 @@
+{
+    "name": "spacy",
+    "models": {
+        "person": "spacy",
+        "address": "spacy",
+        "organization": "spacy"
+    },
+    "mask": {
+        "mode": "anon_l",
+        "special_character": "*",
+        "date_level": "hide"
+    }
+}

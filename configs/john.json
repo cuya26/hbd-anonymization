@@ -1,0 +1,17 @@
+{
+    "name": "john",
+    "models": {
+        "person": "john",
+        "fiscal_code": "john",
+        "telephone": "john",
+        "address": "john",
+        "zipcode": "john",
+        "age": "john",
+        "organization": "john"
+    },
+    "mask": {
+        "mode": "anon_l",
+        "special_character": "*",
+        "date_level": "hide"
+    }
+}

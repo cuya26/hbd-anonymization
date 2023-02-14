@@ -1,0 +1,13 @@
+{
+    "name": "stanza",
+    "models": {
+        "person": "stanza",
+        "address": "stanza",
+        "organization": "stanza"
+    },
+    "mask": {
+        "mode": "anon_l",
+        "special_character": "*",
+        "date_level": "hide"
+    }
+}
