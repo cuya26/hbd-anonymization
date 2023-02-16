@@ -1,0 +1,16 @@
+{
+    "name": "custom",
+    "models": {
+        "telephone": "regex",
+        "person": "john",
+        "date": "regex",
+        "age": "regex",
+        "organization": "john",
+        "address": "stanza"
+    },
+    "mask": {
+        "mode": "anon_l",
+        "special_character": "*",
+        "date_level": "hide"
+    }
+}

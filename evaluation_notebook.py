@@ -11,6 +11,7 @@ from collections import defaultdict
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+sns.set_theme()
 
 def compute_scores(predictions, targets, confusion_only=False):
     tp = 0
@@ -202,10 +203,49 @@ if __name__ == "__main__":
     sns.heatmap(df_corpus_scores_strict, cmap='RdYlGn', annot=True, fmt=".2f", annot_kws={"fontsize":20}, vmin=0, vmax=1)
     fig.savefig(f'./evaluations/{config_name}_strict_heat_scores.png', dpi=400, bbox_inches='tight')
 
+    plt.clf()
+
 
     df_corpus_scores_lenient['score_type'] = 'lenient'
     df_corpus_scores_strict['score_type'] = 'strict'
 
+    df_corpus_scores_lenient = df_corpus_scores_lenient.rename_axis('entity').reset_index()
+    df_corpus_scores_strict= df_corpus_scores_strict.rename_axis('entity').reset_index()
+
     df_corpus_scores = pd.concat([df_corpus_scores_strict, df_corpus_scores_lenient], ignore_index=True)
     df_corpus_scores.to_csv(f'./evaluations/{config_name}_scores.csv')
 
+    evaluation_folder_path = './evaluations/'
+    filenames_scores = [filename for filename in listdir(evaluation_folder_path) if '_scores.csv' in filename]
+    filenames_scores.sort()
+
+    df_scores = pd.DataFrame()
+
+    for filename_scores in filenames_scores:
+        config_name = '_'.join(filename_scores.split('_')[:-1])
+        df_scores_filename = pd.read_csv(evaluation_folder_path + filename_scores)
+        df_scores_filename['config_name'] = config_name
+        df_scores = pd.concat([df_scores, df_scores_filename], ignore_index=True)
+
+    plt.figure(figsize=(30,15))
+
+    for metric in ['precision', 'recall', 'f1']:
+
+        comparison_lenient_plot = sns.barplot(x="entity",
+                y=metric,
+                hue="config_name",
+                data=df_scores[df_scores['score_type']=='lenient'].sort_values(['entity', metric])
+            )
+        # comparison_lenient_plot.legend(loc='upper right')
+        comparison_lenient_plot.get_figure().savefig(f'./evaluations/lenient_comparison_{metric}.png', dpi=800, bbox_inches='tight')
+
+        plt.clf()
+
+        comparison_strict_plot = sns.barplot(x="entity",
+                y=metric,
+                hue="config_name",
+                data=df_scores[df_scores['score_type']=='strict'].sort_values(['entity', metric])
+        )
+        comparison_strict_plot.get_figure().savefig(f'./evaluations/strict_comparison_{metric}.png', dpi=800, bbox_inches='tight')
+
+        plt.clf()
