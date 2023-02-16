@@ -237,7 +237,7 @@ if __name__ == "__main__":
                 data=df_scores[df_scores['score_type']=='lenient'].sort_values(['entity', metric])
             )
         # comparison_lenient_plot.legend(loc='upper right')
-        comparison_lenient_plot.get_figure().savefig(f'./evaluations/lenient_comparison_{metric}.png', dpi=800, bbox_inches='tight')
+        comparison_lenient_plot.get_figure().savefig(f'./evaluations/lenient_comparison_{metric}.png', dpi=400, bbox_inches='tight')
 
         plt.clf()
 
@@ -246,6 +246,6 @@ if __name__ == "__main__":
                 hue="config_name",
                 data=df_scores[df_scores['score_type']=='strict'].sort_values(['entity', metric])
         )
-        comparison_strict_plot.get_figure().savefig(f'./evaluations/strict_comparison_{metric}.png', dpi=800, bbox_inches='tight')
+        comparison_strict_plot.get_figure().savefig(f'./evaluations/strict_comparison_{metric}.png', dpi=400, bbox_inches='tight')
 
         plt.clf()
