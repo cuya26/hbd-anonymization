@@ -1,0 +1,11 @@
+,entity,precision,recall,f1,score_type
+0,NAME,0.0,0.0,0.0,strict
+1,ORG,0.0,0.0,0.0,strict
+2,LOC,0.0,0.0,0.0,strict
+3,DATE,0.0,0.0,0.0,strict
+4,AGE,0.0,0.0,0.0,strict
+5,NAME,0.0,0.0,0.0,lenient
+6,ORG,0.0,0.0,0.0,lenient
+7,LOC,0.0,0.0,0.0,lenient
+8,DATE,0.4324466000391926,0.7388278388278388,0.5266907178831299,lenient
+9,AGE,0.9387755102040817,0.9149659863945577,0.9217687074829931,lenient
